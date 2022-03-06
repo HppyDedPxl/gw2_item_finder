@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mainBody{
+    background-image: url("/bg.jpg");
+    background-color:aquamarine;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:center;
+    background-attachment: fixed;
+    
+}
+
+html{
+    display: table;
+    width:100%;
+}
