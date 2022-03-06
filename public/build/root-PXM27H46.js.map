@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:Z:\\GIT\\Repositories\\GW2ItemFinder\\app\\root.tsx?browser", "../../app/root.tsx"],
+  "sourcesContent": ["export { default, links, meta } from \"Z:\\\\GIT\\\\Repositories\\\\GW2ItemFinder\\\\app\\\\root.tsx\";", "import {\n  Links,\n  LiveReload,\n  Meta,\n  Outlet,\n  Scripts,\n  ScrollRestoration,\n} from \"remix\";\nimport styles from \"./styles/app.css\"\n\nimport type { MetaFunction } from \"remix\";\n\nexport function links(){\n  return [{rel: \"stylesheet\", href: styles}];\n}\n\nexport const meta: MetaFunction = () => {\n  return { title: \"Guild Wars 2 Item Finder\" };\n};\n\nexport default function App() {\n  return (\n    <Document>\n        <Layout>\n          <Outlet/>\n        </Layout>\n    </Document>\n  );\n}\n\nfunction Document({children, title}){\n  return (\n    <>\n    </>\n  )\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;;;ACAA;;;;;;AAYO,iBAAgB;AACrB,SAAO,CAAC,EAAC,KAAK,cAAc,MAAM;AAAA;AAG7B,IAAM,OAAqB,MAAM;AACtC,SAAO,EAAE,OAAO;AAAA;AAGH,eAAe;AAC5B,SACE,oCAAC,UAAD,MACI,oCAAC,QAAD,MACE,oCAAC,QAAD;AAAA;AAMV,kBAAkB,EAAC,UAAU,SAAO;AAClC,SACE;AAAA;",
+  "names": []
+}

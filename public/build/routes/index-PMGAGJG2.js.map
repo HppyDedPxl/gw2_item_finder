@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:Z:\\GIT\\Repositories\\GW2ItemFinder\\app\\routes\\index.tsx?browser", "../../../app/routes/index.tsx"],
+  "sourcesContent": ["export { default } from \"Z:\\\\GIT\\\\Repositories\\\\GW2ItemFinder\\\\app\\\\routes\\\\index.tsx\";", "export default function Index() {\n  return (\n    <h1 className=\"text-5xl font-bold underline\">\n      Hello world!\n    </h1>\n  );\n}\n"],
+  "mappings": ";;;;;;AAAA;;;ACAA;AAAe,iBAAiB;AAC9B,SACE,oCAAC,MAAD;AAAA,IAAI,WAAU;AAAA,KAA+B;AAAA;",
+  "names": []
+}

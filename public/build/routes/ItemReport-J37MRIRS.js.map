@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:Z:\\GIT\\Repositories\\GW2ItemFinder\\app\\routes\\ItemReport.tsx?browser", "../../../app/routes/ItemReport.tsx"],
+  "sourcesContent": ["export { default } from \"Z:\\\\GIT\\\\Repositories\\\\GW2ItemFinder\\\\app\\\\routes\\\\ItemReport.tsx\";", "export default function Index() {\r\n    return (\r\n      <>\r\n    <div className=\"bg-gray-800 border-solid rounded-2xl px-5 py-5\"></div>\r\n    \r\n    \r\n    </>\r\n    );\r\n  }\r\n  "],
+  "mappings": ";;;;;;AAAA;;;ACAA;AAAe,iBAAiB;AAC5B,SACE,0DACF,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA;AAAA;",
+  "names": []
+}
