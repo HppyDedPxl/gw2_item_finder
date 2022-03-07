@@ -1,0 +1,1 @@
+import{h as d,i as r}from"/build/_shared/chunk-2ADOHOB6.js";r();r();function o(){return d.createElement(d.Fragment,null,d.createElement("div",{className:"bg-gray-800 border-solid rounded-2xl px-5 py-5"}))}export{o as default};
