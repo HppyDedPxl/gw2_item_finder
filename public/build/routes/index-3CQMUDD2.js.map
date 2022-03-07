@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:Z:\\GIT\\Repositories\\GW2ItemFinder\\app\\routes\\index.tsx?browser", "../../../app/routes/index.tsx"],
-  "sourcesContent": ["export { default } from \"Z:\\\\GIT\\\\Repositories\\\\GW2ItemFinder\\\\app\\\\routes\\\\index.tsx\";", "\n\nexport default function Index() {\n  return (\n    <>\n    <div className=\"bg-white border-solid rounded-l-2xl\">\n      <div>\n        <div>\n          <label className=\"block text-sm font-medium text-gray-700\">\n            Api Key\n            </label>\n        </div>\n        <input type=\"text\" name=\"api-key\" id=\"api-key\" className=\"focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md\" placeholder=\"API Key\">\n        </input>\n      </div>\n    </div>\n  \n  </>\n  );\n}\n"],
-  "mappings": ";;;;;;AAAA;;;ACAA;AAEe,iBAAiB;AAC9B,SACE,0DACA,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KACb,oCAAC,OAAD,MACE,oCAAC,OAAD,MACE,oCAAC,SAAD;AAAA,IAAO,WAAU;AAAA,KAA0C,aAI7D,oCAAC,SAAD;AAAA,IAAO,MAAK;AAAA,IAAO,MAAK;AAAA,IAAU,IAAG;AAAA,IAAU,WAAU;AAAA,IAA8G,aAAY;AAAA;AAAA;",
-  "names": []
-}

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:Z:\\GIT\\Repositories\\GW2ItemFinder\\app\\routes\\index.tsx?browser", "../../../app/routes/index.tsx"],
-  "sourcesContent": ["export { default } from \"Z:\\\\GIT\\\\Repositories\\\\GW2ItemFinder\\\\app\\\\routes\\\\index.tsx\";", "export default function Index() {\n  return (\n    <div class=\"relative bg-white\">\n      <div class=\"max-w-7xl mx-auto px-4 sm:px-6\">\n        <div class=\"flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10\">\n          <div class=\"flex justify-start lg:w-0 lg:flex-1\">\n            <a href=\"#\">\n              <span class=\"sr-only\">Workflow</span>\n              <img class=\"h-8 w-auto sm:h-10\" src=\"https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg\" alt=\"\"></img>\n            </a>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n"],
-  "mappings": ";;;;;;AAAA;;;ACAA;AAAe,iBAAiB;AAC9B,SACE,oCAAC,OAAD;AAAA,IAAK,OAAM;AAAA,KACT,oCAAC,OAAD;AAAA,IAAK,OAAM;AAAA,KACT,oCAAC,OAAD;AAAA,IAAK,OAAM;AAAA,KACT,oCAAC,OAAD;AAAA,IAAK,OAAM;AAAA,KACT,oCAAC,KAAD;AAAA,IAAG,MAAK;AAAA,KACN,oCAAC,QAAD;AAAA,IAAM,OAAM;AAAA,KAAU,aACtB,oCAAC,OAAD;AAAA,IAAK,OAAM;AAAA,IAAqB,KAAI;AAAA,IAAgE,KAAI;AAAA;AAAA;",
-  "names": []
-}

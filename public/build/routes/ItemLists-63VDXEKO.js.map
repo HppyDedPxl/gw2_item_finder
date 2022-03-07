@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:Z:\\GIT\\Repositories\\GW2ItemFinder\\app\\routes\\ItemLists.tsx?browser"],
-  "sourcesContent": ["export * from \"Z:\\\\GIT\\\\Repositories\\\\GW2ItemFinder\\\\app\\\\routes\\\\ItemLists.tsx\";"],
-  "mappings": ";;;;;AAAA;",
-  "names": []
-}
