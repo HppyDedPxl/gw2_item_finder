@@ -17,6 +17,7 @@ export class GW2AccountInfo{
     Access: string[];
     Characters: GW2Character[];
     SharedInventory: GW2JsonItemWrapper[];
+    BankInventory: GW2JsonItemWrapper[];
     ApiKey: string;
     LastUpdate: number;
 
@@ -27,6 +28,7 @@ export class GW2AccountInfo{
         this.SharedInventory = [];
         this.ApiKey = "";
         this.LastUpdate = 0;
+        this.BankInventory = []
     }
 
     populateFromApiKey(apiKey: string) : Promise<GW2AccountInfo> {
@@ -49,8 +51,15 @@ export class GW2AccountInfo{
                 }));
 
                 // TODO: GET BANK (game) DATA!
+                // 2.2 Get Shared Inventory Data
+                parallelRequests.push(new GW2API_Call(apiKey).GetBankData().then((res)=>{
+                    this.BankInventory = res.Items;
+                })
+                .catch(err=>{
+                    error(err);
+                }));
 
-                // 2.2. Get Character Data
+                // 2.3. Get Character Data
                 parallelRequests.push(new GW2API_Call(apiKey).GetCharacterList().then(res=>{
 
                     let characterPromises : Promise<GW2Character>[] = [];
@@ -166,11 +175,19 @@ export class GW2AccountInfo{
             }   
         }
 
-        // TODO: CHECK BANK 
+        // 2. Check Bank
+        for (let i = 0; i < this.BankInventory.length; i++) {
+            if(this.BankInventory[i] !== null){
+                if(this.BankInventory[i].id === searchId){
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Account Bank"});
 
-        // 2. Iterate over all characters
+                }
+            }   
+        }
+
+        // 3. Iterate over all characters
         this.Characters.forEach(character => {
-            // 3. Check "gathering slots"
+            // 4. Check "gathering slots"
             let slotsToCheck : string[] = ["Sickle", "Axe", "Pick"];
             for (let i = 0; i < slotsToCheck.length; i++) {
                 let element : GW2JsonItemWrapper | null = character.GetDefaultEquipmentSlot(slotsToCheck[i]);
@@ -179,7 +196,7 @@ export class GW2AccountInfo{
                 }
             }
 
-            // 4. Check Inventory
+            // 5. Check Inventory
             for (let i = 0; i < character.Bags.length; i++) {
                 const bag = character.Bags[i];
                 for (let j = 0; j < bag.inventory.length; j++) {
@@ -191,7 +208,7 @@ export class GW2AccountInfo{
                 }            
             }
 
-            // 5. Check all Equipment Tabs
+            // 6. Check all Equipment Tabs
             character.EquipmentTabs.forEach(equipmentTab => {
                 equipmentTab.equipment.forEach(item => {                
                     // check if the item in question is the item we are looking for

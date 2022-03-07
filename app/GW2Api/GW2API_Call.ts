@@ -42,7 +42,9 @@ export type AccountResult = {
     Access: string[];
 }
 
-
+export type BankResult = {
+    Items : any[];
+}
 
 export class GW2API_Call {
 
@@ -203,4 +205,17 @@ export class GW2API_Call {
             })
         });
     }
+    GetBankData() : Promise<BankResult>{
+        return new Promise<BankResult>((resolve,error)=>{
+            this.URI = GW2APIEndpoint + "account/bank";
+            this.call().then(res=>{
+                let result : BankResult = {Items: JSON.parse(res)}
+                resolve(result);
+            })
+            .catch(err=>{
+                error(err);
+            })
+        });
+    }
+
 }
