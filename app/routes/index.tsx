@@ -1,4 +1,4 @@
-import { QuestionMarkCircleIcon, RefreshIcon, XIcon } from '@heroicons/react/outline'
+import { QuestionMarkCircleIcon, RefreshIcon, SearchIcon, XIcon } from '@heroicons/react/outline'
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import  SearchResult, { ItemCard } from '~/components/ItemCard';
@@ -134,8 +134,7 @@ export default function Index() {
             </label>
             {
               HasValidAccount() ? (<div className="flex text-xs text-gray-400">Last Refreshed: {accountInfo?ConvertTimespanToTimeString(accountInfo?.getTimeSinceLastUpdated()):"invalid"} ago</div>) : (<></>)
-            }
-            
+            }        
         </div>
         <div className="flex flex-row place-items-center justify-items-auto h-7">
           {!HasValidAccount() ? 
@@ -143,7 +142,13 @@ export default function Index() {
           <>
           {/* API KEY INPUT */}
             {fetchingAccount ? 
-            (<><BarLoader width='100%' color='white'></BarLoader></>) 
+            (<>
+            <div className="block w-full h-full px-1">
+              <div className="inline-block text-xs text-gray-300">Brave Skritt are making a map of your account! This can take a while but will make finding shinies faster later!...</div>
+              <div className="inline-block grid"><BarLoader width='100%' color='white'></BarLoader></div>
+              
+            </div>
+            </>) 
             : 
             (
               <>
@@ -176,7 +181,7 @@ export default function Index() {
         {/* ACCOUNT SECTION END */}
         <div className="py-1"></div>
         {/* ITEM INPUT */}
-        {HasValidAccount() ? 
+        {HasValidAccount() || true ? 
         (<>
           <div>
             <label className="block text-sm font-medium text-white px-1">
@@ -184,8 +189,11 @@ export default function Index() {
             </label>
           </div>
           <div className="pt-1"></div>
+          <div className='flex flex-row lace-items-center justify-items-auto'>
           <ItemSelect ItemCache={loaderData.ItemDB} onChange={OnMultiSelectChanged}></ItemSelect>
-          <button name="confirm-button" id="confirm-button" className="pl-2 pr-2 pt-1 rounded-md border-gray-300 bg-green-300 w-full mt-2" onClick={FindItems}>Find My Skritts!</button>
+          <div className="px-1"></div>
+          <button name="confirm-button" id="confirm-button" className="flex pl-2 pr-2 rounded-md border-gray-300 bg-green-300  h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
+          </div>
         </>
         )
         :

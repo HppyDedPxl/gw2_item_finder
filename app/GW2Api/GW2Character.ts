@@ -109,7 +109,7 @@ export class GW2Character{
                     }
 
                     // after all tabs are populated, return ourselves
-                    Promise.all(equipmentTabPromises).then(res=>{
+                    return Promise.all(equipmentTabPromises).then(res=>{
                         // do nothing here, this just means all processes have returned the promise, resolution is once all parallel promises are done
                     })
                     .catch(err=>{
@@ -123,6 +123,7 @@ export class GW2Character{
 
                 // resolve once 2.1 and 2.2 have resolved
                 Promise.all(parallelLookups).then(res=>{
+                    // All Promises on individual character resolved.
                     resolve(this);
                 })
                 .catch(err=>{

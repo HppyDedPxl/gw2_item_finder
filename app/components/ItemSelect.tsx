@@ -21,6 +21,8 @@ export type ItemOption = {
     icon: string,
 }
 
+
+
 const image = (url = "") =>({
 
 });
@@ -54,7 +56,7 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
         let itemDb = Object.assign(new GW2OfflineItemCache(), this.props.ItemCache);
         let matches : GW2CacheFilterResult[] = itemDb.GetAllMatching(inputValue);
         let options : ItemOption[] = [];
-        for (let i = 0; i < matches.length && i < 20; i++) {
+        for (let i = 0; i < matches.length && i < 40; i++) {
             const element = matches[i];
             options.push({value:element.Key,label: element.Name + " [" + element.Key+"]",icon:element.IconUrl});   
         }
@@ -96,10 +98,30 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
         </components.Option>)
 
     
+    selectBaseStyle = {
+        control: (base) => ({
+            ...base,
+            minHeight:34,
+
+
+        }),
+        dropdownIndicator: (styles) => ({
+            ...styles,
+            paddingTop: 2,
+            paddingBottom: 2,
+        }),
+        clearIndicator: (styles) => ({
+            ...styles,
+            paddingTop: 2,
+            paddingBottom: 2,
+        }),
+    }
 
     render(): ReactNode {
         return(<>
+        <div className="flex-auto">
         <AsyncSelect 
+
         ref={this.selector}
         onChange={this.onOptionSelected}
         inputValue={this.state.inputValue}
@@ -109,10 +131,13 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
         defaultOptions={false}
         closeMenuOnSelect={false}
         blurInputOnSelect={false}
+        styles={this.selectBaseStyle}
         components={{ 
             Option: this.singleOption}}
         loadOptions={this.promiseItemOptions}
+
       />
+      </div>
         </>)
     }
 }

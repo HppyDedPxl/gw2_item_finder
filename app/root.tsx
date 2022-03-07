@@ -58,9 +58,7 @@ function Document({children}) : JSX.Element {
 }
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Item Lists', href: '/ItemLists', current: false },
-  { name: 'About', href: '#', current: false },
+  { name: 'Home', href: '/', current: true }
 ]
 
 function classNames(...classes) {

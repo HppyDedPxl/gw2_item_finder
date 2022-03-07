@@ -67,8 +67,8 @@ export class GW2AccountInfo{
 
                     // Give back this object, when all character have successfully populated this object is
                     // also fully populated with data
-                    Promise.all(characterPromises).then(res=>{
-                      // No need to do anything here, we just wait until all processes are done which means everything has been populated
+                    return Promise.all(characterPromises).then(res=>{
+                        // No need to do anything here, we just wait until all processes are done which means everything has been populated
                     })
                     .catch(err=>{
                         error(err);
