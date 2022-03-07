@@ -37,6 +37,23 @@ const EliteSpecLookupTable : ESpecLookup = {
     72: "Untamed"
 }
 
+// Todo: (AK) properly move to seperate file, maybe merge with GW2Item? Create GW2InventoryItem?
+export interface GW2JsonItemWrapper {
+    id : number;
+    slot : string;
+    upgrades : number[];
+    skin: number;
+    stats: object;
+    binding: string;
+    dyes: number[];
+}
+
+export interface GW2JsonBagWrapper {
+    id : number;
+    inventory : GW2JsonItemWrapper[];
+    size: number;
+}
+
 export class GW2Character{
     CharacterName: string;
     EquipmentTabs: GW2EquipmentTab[];
@@ -44,14 +61,16 @@ export class GW2Character{
     Profession: string;
     EliteSpec: string;
 
-    Bags: object | null;
+    BaseEquipment : GW2JsonItemWrapper[];
+    Bags: GW2JsonBagWrapper[];
 
     constructor(){
         this.CharacterName="";
         this.EquipmentTabs=[]
         this.Profession="";
         this.EliteSpec = "No";
-        this.Bags = null;
+        this.Bags = [];
+        this.BaseEquipment = [];
     }
 
 
@@ -67,8 +86,16 @@ export class GW2Character{
                 this.SetActivePvESpecializations(res.CharacterPvESpecs);
                 this.Bags = res.CharacterBags;
 
-                // 2. Get Equipment Tab List
-                new GW2API_Call(apiKey).GetEquipmentTemplates(characterName)
+                let parallelLookups = [];
+
+                // 2.1. Get Default Equipment
+                parallelLookups.push(new GW2API_Call(apiKey).GetDefaultEquipmentData(characterName)
+                .then(res=>{
+                    this.BaseEquipment = res.Equipment;
+                }));
+
+                // 2.2. Get Equipment Tab List
+                parallelLookups.push(new GW2API_Call(apiKey).GetEquipmentTemplates(characterName)
                 .then(res=>{
                     
                     // Create new Equipment Tabs for each tab in the list and populate it from
@@ -83,16 +110,24 @@ export class GW2Character{
 
                     // after all tabs are populated, return ourselves
                     Promise.all(equipmentTabPromises).then(res=>{
-                        resolve(this);
+                        // do nothing here, this just means all processes have returned the promise, resolution is once all parallel promises are done
                     })
                     .catch(err=>{
                         error(err);
-                    })
+                    });
 
                 })
                 .catch(err=>{
                     error(err);
-                });
+                }));
+
+                // resolve once 2.1 and 2.2 have resolved
+                Promise.all(parallelLookups).then(res=>{
+                    resolve(this);
+                })
+                .catch(err=>{
+                    error(err);
+                })
             })
             .catch(err=>{
                 error(err);
@@ -126,5 +161,16 @@ export class GW2Character{
         for (let i = 0; i < this.EquipmentTabs.length; i++) {
             this.EquipmentTabs[i] = Object.assign(new GW2EquipmentTab(),this.EquipmentTabs[i]);          
         }
+    }
+
+    GetDefaultEquipmentSlot(slotName : string) : GW2JsonItemWrapper | null{
+        if(this.BaseEquipment === null) 
+            return null;
+        for (let i = 0; i < this.BaseEquipment.length; i++) {
+            if(this.BaseEquipment[i].slot === slotName){
+                return this.BaseEquipment[i];
+            }     
+        }
+        return null;
     }
 }

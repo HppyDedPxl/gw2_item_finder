@@ -11,7 +11,7 @@ export type GW2AccountItemSearchResult = {
 
 export type GW2AccountSearchResult = {
     uuid: string;
-    Character: GW2Character,
+    Character: GW2Character | null,
     EquipmentTabNr: number,
     EquipmentTabName: string,
     Slot: string,

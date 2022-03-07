@@ -6,9 +6,17 @@ const GW2APIEndpoint : string = "https://api.guildwars2.com/v2/";
 export type CharacterResult = {
     CharacterName: string,
     CharacterProfession: string,
-    CharacterBags: object,
+    CharacterBags: any[],
     CharacterPvESpecs : object
   
+}
+
+export type DefaultEquipmentResult = {
+    Equipment: any[];
+}
+
+export type DefaultSharedInventoryResult = {
+    Items: any[];
 }
 
 export type EqTemplateListResult ={
@@ -33,6 +41,8 @@ export type AccountResult = {
     Name: string;
     Access: string[];
 }
+
+
 
 export class GW2API_Call {
 
@@ -166,5 +176,31 @@ export class GW2API_Call {
             })
         }
         );
+    }
+
+    GetDefaultEquipmentData(characterName: string) : Promise<DefaultEquipmentResult>{
+        return new Promise<DefaultEquipmentResult>((resolve,error)=>{
+            this.URI = GW2APIEndpoint + "characters/" + characterName + "/equipment";
+            this.call().then(res=>{
+                    let result : DefaultEquipmentResult = {Equipment : JSON.parse(res).equipment};
+                    resolve(result);
+            })
+            .catch(err=>{
+                error(err);
+            });
+        });
+    }
+
+    GetSharedInventoryData() : Promise<DefaultSharedInventoryResult>{
+        return new Promise<DefaultSharedInventoryResult>((resolve,error)=>{
+            this.URI = GW2APIEndpoint + "account/inventory";
+            this.call().then(res=>{
+                let result : DefaultSharedInventoryResult = {Items: JSON.parse(res)}
+                resolve(result);
+            })
+            .catch(err=>{
+                error(err);
+            })
+        });
     }
 }

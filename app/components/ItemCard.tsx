@@ -82,13 +82,26 @@ const ItemSearch = (props : ItemCard) => {
                 {result.map(r=>(
                 <div key={r.uuid}>
           
-                    <div className="bg-gray-900 my-1 mx-1 my-1 py-1 px-4 h-8 flex flex-row border-solid border-gray-900 rounded-xl">              
-                    <img src={"icons/"+r.Character.GetCharacterClass()+".png"} className="h-full pr-2"></img>
-                    <div className="flex items-center justify-center text-white">{r.Character.CharacterName} </div>
-
-                    <div className="flex items-center justify-center text-white pl-4 text-gray-300"> Equipment Tab: </div>
-                    <div className="flex items-center justify-center text-white pl-1">{r.EquipmentTabNr} </div>
-
+                    <div className="bg-gray-900 my-1 mx-1 my-1 py-1 px-4 h-8 flex flex-row border-solid border-gray-900 rounded-xl">       
+                    {r.Character === null ? 
+                    (<>
+                      <div className="flex items-center justify-center text-white">No Character</div>
+                    </>) 
+                    : 
+                    (<>
+                        <img src={"icons/"+r.Character.GetCharacterClass()+".png"} className="h-full pr-2"></img>
+                        <div className="flex items-center justify-center text-white">{r.Character.CharacterName} </div>
+                        </>
+                    )}       
+                    
+                    {r.EquipmentTabNr !== 0 ? 
+                    (<>
+                      <div className="flex items-center justify-center text-white pl-4 text-gray-300"> Equipment Tab: </div>
+                        <div className="flex items-center justify-center text-white pl-1">{r.EquipmentTabNr} </div>
+                    </>)
+                    :
+                    (<></>)               
+                    }
                     <div className="flex items-center justify-center text-white pl-4">Slot: </div>
                     <div className="flex items-center justify-center text-white pl-1 text-yellow-500">{r.Slot}</div>
 
