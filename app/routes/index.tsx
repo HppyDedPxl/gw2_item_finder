@@ -181,7 +181,7 @@ export default function Index() {
         {/* ACCOUNT SECTION END */}
         <div className="py-1"></div>
         {/* ITEM INPUT */}
-        {HasValidAccount() || true ? 
+        {HasValidAccount() ? 
         (<>
           <div>
             <label className="block text-sm font-medium text-white px-1">
