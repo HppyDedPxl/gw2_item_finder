@@ -11,7 +11,7 @@
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "postinstall": "remix setup node",
     "start": "cross-env NODE_ENV=production remix-serve build",
-    "build:start": "npm run build && npm run start"
+    "build:start": "npm i && npm run build && npm run start"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
