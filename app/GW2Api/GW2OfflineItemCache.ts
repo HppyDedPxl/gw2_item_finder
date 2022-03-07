@@ -1,4 +1,4 @@
-import db from "./Gw2OfflineItems.json"
+import db from "./GW2OfflineItems.json"
 
 export type GW2CacheFilterResult= {
     Key: string;
