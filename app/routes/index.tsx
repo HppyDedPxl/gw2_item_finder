@@ -46,6 +46,23 @@ export default function Index() {
   const [fetchingAccount, setFetchingAccount] = useState(false)
   const [accountInfo, setAccountInfo] = useState<GW2AccountInfo>()
 
+
+  function removeCardFromCards(uid : string){
+    let ic_copy = itemCards;
+    // find element at index
+    for (let i = 0; i < ic_copy.length; i++) {
+      const element = ic_copy[i];
+      if (element.uid === uid){
+        ic_copy.splice(i,1);
+      }
+    }
+
+    setItemCards(ic_copy);
+    setItemAmount(itemCards.length);
+
+  }
+
+
   function SetApiKey(){
     let newAccount : GW2AccountInfo = new GW2AccountInfo();  
     setFetchingAccount(true);
@@ -78,7 +95,7 @@ export default function Index() {
     .catch(err=>{
       setFetchingAccount(false);
     });
-  }
+    }
   }
 
   function RemoveAccount(){
@@ -94,7 +111,7 @@ export default function Index() {
   function FindItem(itemID: string){
     let ic_copy = itemCards;
     if(accountInfo !== undefined){
-      ic_copy.unshift({uid:GenerateUID(), account: accountInfo, itemID: itemID });
+      ic_copy.unshift({uid:GenerateUID(), account: accountInfo, itemID: itemID , onRemoveClickedCallback: removeCardFromCards});
       setItemCards(ic_copy);
       setItemAmount(itemCards.length);
     }
@@ -154,7 +171,7 @@ export default function Index() {
               <>
               <input type="password" name="api-key" id="api-key" className="flex focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-2 pr-2 py-1 sm:text-sm border-gray-300 rounded-md h-full" placeholder="API Key" onChange={e=>setinput_apiKey(e.target.value)}>
               </input>
-              <button name="confirm-button" id="confirm-button" className="flex flex-row pl-2 pr-2 py-1 sm:text-sm border-gray-300 rounded-md bg-green-300 ml-2 h-full w-3/12 place-items-center justify-items-auto" onClick={SetApiKey}> <p className="text-center w-full">Set Account</p> </button>
+              <button name="confirm-button" id="confirm-button" className="flex flex-row pl-2 pr-2 py-1 sm:text-sm border-gray-300 rounded-md bg-green-300 ml-2 h-full w-3/12 place-items-center justify-items-auto hover:bg-green-700 hover:text-white" onClick={SetApiKey}> <p className="text-center w-full">Set Account</p> </button>
               </>
             )}
             {/* API KEY INPUT END */}
@@ -169,8 +186,8 @@ export default function Index() {
                 <div className="flex w-full">{accountInfo?.AccountName}</div>
                
               </div>
-              <button className="flex h-auto w-7 ml-1 text-white hover:text-gray-400  bg-blue-600 rounded-md border-2 border-blue-900 border-solid" name="remove-account-button" id="remove-account-button" onClick={RefreshAccount}><RefreshIcon color='black' style={{alignSelf:'center'}}></RefreshIcon></button>
-              <button className="flex h-auto w-7 ml-1 text-white hover:text-gray-400  bg-red-600 rounded-md border-2 border-red-900 border-solid" name="remove-account-button" id="remove-account-button"onClick={RemoveAccount}><XIcon color='black' style={{alignSelf:'center'}}></XIcon></button>
+              <button className="flex h-auto w-7 ml-1 text-white hover:text-gray-400  bg-blue-600 rounded-md border-2 border-blue-900 border-solid hover:bg-blue-800 hover:text-white" name="remove-account-button" id="remove-account-button" onClick={RefreshAccount}><RefreshIcon color='black' style={{alignSelf:'center'}}></RefreshIcon></button>
+              <button className="flex h-auto w-7 ml-1 text-white hover:text-gray-400  bg-red-600 rounded-md border-2 border-red-900 border-solid hover:bg-red-800 hover:text-white" name="remove-account-button" id="remove-account-button"onClick={RemoveAccount}><XIcon color='black' style={{alignSelf:'center'}}></XIcon></button>
             </div>
           {/* ACCOUNT DETAILS DISPLAY END*/}
 
@@ -192,7 +209,7 @@ export default function Index() {
           <div className='flex flex-row lace-items-center justify-items-auto'>
           <ItemSelect ItemCache={loaderData.ItemDB} onChange={OnMultiSelectChanged}></ItemSelect>
           <div className="px-1"></div>
-          <button name="confirm-button" id="confirm-button" className="flex pl-2 pr-2 rounded-md border-gray-300 bg-green-300  h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
+          <button name="confirm-button" id="confirm-button" className="flex pl-2 pr-2 rounded-md border-gray-300 bg-green-300 hover:bg-green-500 h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
           </div>
         </>
         )
@@ -206,7 +223,7 @@ export default function Index() {
     </div>
     {itemCards.map((item)=>
       <div key={item.uid} className="py-2">
-         <SearchResult uid={item.uid} account={item.account} itemID={item.itemID}/>
+         <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID}/>
       </div>
     )}
     

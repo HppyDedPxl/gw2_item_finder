@@ -7,13 +7,20 @@ import { GW2AccountSearchResult, GW2ItemFinder as GW2ItemFinder } from "~/GW2Api
 import { GW2AccountInfo } from "~/GW2Api/GW2AccountInfo";
 import { GW2Item } from "~/GW2Api/GW2Item";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import { XIcon } from "@heroicons/react/outline";
 
 
 export type ItemCard = {
     uid: string;
     account: GW2AccountInfo,
     itemID: string,
+    onRemoveClickedCallback: ((uid :string) => void) | null
+}
 
+export type SearchItemProps = {
+    uid: string;
+    account: GW2AccountInfo,
+    itemID: string,
 }
 
 const useAPIData = (account: GW2AccountInfo, itemid: string) => {
@@ -49,8 +56,17 @@ const useAPIData = (account: GW2AccountInfo, itemid: string) => {
 }
 
 
+
 const ItemSearch = (props : ItemCard) => {
+
+
     const { apiData, isLoading,result, searchItem, isError, Error } = useAPIData(props.account, props.itemID);
+
+    
+    let onRemoveClicked = () => {
+        if(props.onRemoveClickedCallback !== null)
+            props?.onRemoveClickedCallback(props.uid)
+    }
 
     return isError ? (
         <>
@@ -64,7 +80,6 @@ const ItemSearch = (props : ItemCard) => {
 
     ) : (
         <div className="bg-gray-800 border-solid border-solid border-gray-900 rounded-2xl overflow-hidden">
-            
         {isLoading ? (
              <div className="grid flex-col">
                 <div className="flex items-center justify-center text-white px-20 py-16"><PacmanLoader color="white"></PacmanLoader></div>
@@ -72,9 +87,10 @@ const ItemSearch = (props : ItemCard) => {
 
         ) : (
             <div>
-                <div className="bg-gray-700 rounded-t-2xl h-12 flex flex-row">
+                <div className="bg-gray-700 rounded-t-2xl h-8 flex flex-row">
                     <img src={searchItem?.IconUrl} className="h-full pr-2"></img>
-                    <div className="flex items-center justify-center text-white">{searchItem?.Name} [{searchItem?.ItemID}]</div>
+                    <div className="flex w-full items-center justify-center text-white">{searchItem?.Name} [{searchItem?.ItemID}]</div>
+                    <button className="flex bg-red-600 hover:bg-red-400 w-8 items-center justify-center text-white hover:text-black" onClick={onRemoveClicked}><XIcon></XIcon></button>
                 </div>
                 <div className="my-2 px-4">
                 {result.length > 0 ? (
