@@ -79,7 +79,7 @@ const ItemSearch = (props : ItemCard) => {
         </>
 
     ) : (
-        <div className="bg-gray-800 border-solid border-solid border-gray-900 rounded-2xl overflow-hidden">
+        <div className="bg-gray-800 border-solid border-solid border-2 border-gray-900 rounded-2xl overflow-hidden">
         {isLoading ? (
              <div className="grid flex-col">
                 <div className="flex items-center justify-center text-white px-20 py-16"><PacmanLoader color="white"></PacmanLoader></div>

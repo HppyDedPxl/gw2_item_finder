@@ -221,12 +221,13 @@ export default function Index() {
 
       </div>
     </div>
+    <div className="resultsContainer">
     {itemCards.map((item)=>
-      <div key={item.uid} className="py-2">
+      <div key={item.uid} className="py-2 px-2">
          <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID}/>
       </div>
     )}
-    
+    </div>
   </>
   );
 }

@@ -16,3 +16,9 @@ html{
     display: table;
     width:100%;
 }
+
+.resultsContainer{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+}
