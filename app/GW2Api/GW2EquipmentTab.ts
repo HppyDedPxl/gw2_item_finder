@@ -41,5 +41,12 @@ export class GW2EquipmentTab{
 
         });
     }
+
+    ReassignPrototypes(){
+        // TODO: Change this to GW2Item
+        for (let i = 0; i < this.equipment.length; i++) {
+            this.equipment[i] = Object.assign(new GW2EquipmentItem(),this.equipment[i]);          
+        }
+    }
     
 }

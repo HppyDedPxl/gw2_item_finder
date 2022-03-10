@@ -16,8 +16,8 @@ export class GW2AccountInfo{
     AccountName: string;
     Access: string[];
     Characters: GW2Character[];
-    SharedInventory: GW2JsonItemWrapper[];
-    BankInventory: GW2JsonItemWrapper[];
+    SharedInventory: (GW2Item|null)[];
+    BankInventory: (GW2Item|null)[];
     ApiKey: string;
     LastUpdate: number;
 
@@ -44,7 +44,10 @@ export class GW2AccountInfo{
 
                 // 2.1 Get Shared Inventory Data
                 parallelRequests.push(new GW2API_Call(apiKey).GetSharedInventoryData().then((res)=>{
-                    this.SharedInventory = res.Items;
+                    this.SharedInventory = [];
+                    for (let i = 0; i < res.Items.length; i++) {
+                        this.SharedInventory.push(res.Items[i] !== null ? GW2Item.fromJSON(res.Items[i]) : null);                      
+                    }
                 })
                 .catch(err=>{
                     error(err);
@@ -53,7 +56,10 @@ export class GW2AccountInfo{
                 // TODO: GET BANK (game) DATA!
                 // 2.2 Get Shared Inventory Data
                 parallelRequests.push(new GW2API_Call(apiKey).GetBankData().then((res)=>{
-                    this.BankInventory = res.Items;
+                    this.BankInventory = [];
+                    for (let i = 0; i < res.Items.length; i++) {
+                        this.BankInventory.push(res.Items[i] !== null ? GW2Item.fromJSON(res.Items[i]) : null);                      
+                    }
                 })
                 .catch(err=>{
                     error(err);
@@ -168,9 +174,9 @@ export class GW2AccountInfo{
         // 1. Check Shared Inventory Slots
         for (let i = 0; i < this.SharedInventory.length; i++) {
             if(this.SharedInventory[i] !== null){
-                if(this.SharedInventory[i].id === searchId){
-                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Shared Account Inventory", Slot: "Shared Account Inventory"});
-
+                if(this.SharedInventory[i]?.ItemID === searchId || this.SharedInventory[i]?.hasItemIdAsUpgradeOrInfusion(searchId)){
+                    // check item itsel
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Shared Account Inventory", Slot: "Shared Account Inventory Slot: "+ i});
                 }
             }   
         }
@@ -178,8 +184,11 @@ export class GW2AccountInfo{
         // 2. Check Bank
         for (let i = 0; i < this.BankInventory.length; i++) {
             if(this.BankInventory[i] !== null){
-                if(this.BankInventory[i].id === searchId){
-                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Account Bank"});
+                if(this.BankInventory[i]?.ItemID === searchId || this.BankInventory[i]?.hasItemIdAsUpgradeOrInfusion(searchId)){
+                    let bankTab : number = Math.floor(i / 30);
+                    let slot = i - (bankTab * 30);
+
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Account Bank. Tab: "+bankTab +" Slot:" + (slot-1)});
 
                 }
             }   
@@ -190,8 +199,8 @@ export class GW2AccountInfo{
             // 4. Check "gathering slots"
             let slotsToCheck : string[] = ["Sickle", "Axe", "Pick"];
             for (let i = 0; i < slotsToCheck.length; i++) {
-                let element : GW2JsonItemWrapper | null = character.GetDefaultEquipmentSlot(slotsToCheck[i]);
-                if(element !== null && element.id === searchId) {
+                let element : GW2Item | null = character.GetDefaultEquipmentSlot(slotsToCheck[i]);
+                if(element !== null && element.ItemID === searchId) {
                     hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Default Equipment", Slot: slotsToCheck[i]});
                 }
             }
@@ -199,10 +208,11 @@ export class GW2AccountInfo{
             // 5. Check Inventory
             for (let i = 0; i < character.Bags.length; i++) {
                 const bag = character.Bags[i];
-                for (let j = 0; j < bag.inventory.length; j++) {
-                    const item = bag.inventory[j];
-                    if(item !== null && item.id === searchId){
-                        hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Inventory", Slot: "Character Inventory"});
+                if(bag == null) continue;
+                for (let j = 0; j < bag.Inventory.length; j++) {
+                    const item = bag.Inventory[j];
+                    if(item !== null && item.ItemID === searchId || item?.hasItemIdAsUpgradeOrInfusion(searchId)){
+                        hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Inventory", Slot: "Character Inventory, Bag Nr.: " + i +" Slot: " + j});
                     }
                     
                 }            
@@ -249,13 +259,31 @@ export function DeserializeGW2AccountInfo(data: string) : GW2AccountInfo {
     let dataObj : GW2AccountInfo = JSON.parse(data);
     // 1. assign prototypes to main
     dataObj = Object.assign(new GW2AccountInfo(),dataObj);
-    // 2. iterate over all "character" entries and reassign prototype
+
+    // 2. reassign prototypes to shared inventory
+    for (let i = 0; i < dataObj.SharedInventory.length; i++) {
+        if(dataObj.SharedInventory[i] !== null)
+        {
+            dataObj.SharedInventory[i] = Object.assign(new GW2Item(),dataObj.SharedInventory[i]);
+        }    
+    }
+
+    // 3. reassing prototypes to bank
+    for (let i = 0; i < dataObj.BankInventory.length; i++) {
+        if(dataObj.BankInventory[i] !== null)
+        {
+            dataObj.BankInventory[i] = Object.assign(new GW2Item(),dataObj.BankInventory[i]);
+        } 
+    }
+
+    // 4. iterate over all "character" entries and reassign prototype
     for (let i = 0; i < dataObj.Characters.length; i++) {
         dataObj.Characters[i] = Object.assign(new GW2Character(),dataObj.Characters[i]);
         // 3. tell character object to do the same for own children
         dataObj.Characters[i].ReassignPrototypes();
         
     }
+    console.log(dataObj);
     return dataObj;
     
 }

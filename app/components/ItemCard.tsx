@@ -129,6 +129,7 @@ const ItemSearch = (props : ItemCard) => {
                     </>
                 ) : (
                     <div className="grid flex-col">
+                        
                         <div className="flex items-center justify-center text-white  pt-3">Item not found on any Character.</div>
                         <div className="flex items-center justify-center text-white  pt-1 pb-3">Skritt is very sad. :(</div>
                     </div>

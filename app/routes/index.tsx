@@ -139,6 +139,7 @@ export default function Index() {
     }
   },[]);
 
+  console.log(itemCards);
   let loaderData = useLoaderData();
   return (
     <>
@@ -222,7 +223,7 @@ export default function Index() {
       </div>
     </div>
     <div className="resultsContainer">
-    {itemCards.map((item)=>
+    { itemCards.map((item)=>
       <div key={item.uid} className="py-2 px-2">
          <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID}/>
       </div>

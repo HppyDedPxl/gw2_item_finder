@@ -37,7 +37,8 @@ export class GW2ItemFinder {
             let search : GW2AccountItemSearchResult;
      
             // prepare search objects
-            let newSearchItem :GW2Item = new GW2Item(parseInt(itemId)); 
+            let newSearchItem :GW2Item = new GW2Item(); 
+            newSearchItem.ItemID = parseInt(itemId);
             // Resolve the item with the api
             resolvePromises.push(newSearchItem.populateFromAPI());
             // find all instances of item on account

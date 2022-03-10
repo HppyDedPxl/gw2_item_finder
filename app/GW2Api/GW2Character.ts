@@ -1,5 +1,7 @@
 import { GW2API_Call } from "./GW2API_Call";
+import { GW2Bag } from "./GW2Bag";
 import { GW2EquipmentTab } from "./GW2EquipmentTab";
+import { GW2Item } from "./GW2Item";
 
 interface ESpecLookup{[key:number]: string};
 const EliteSpecLookupTable : ESpecLookup = {
@@ -42,6 +44,7 @@ export interface GW2JsonItemWrapper {
     id : number;
     slot : string;
     upgrades : number[];
+    infusions : number[];
     skin: number;
     stats: object;
     binding: string;
@@ -61,8 +64,8 @@ export class GW2Character{
     Profession: string;
     EliteSpec: string;
 
-    BaseEquipment : GW2JsonItemWrapper[];
-    Bags: GW2JsonBagWrapper[];
+    BaseEquipment : (GW2Item|null)[];
+    Bags: (GW2Bag|null)[];
 
     constructor(){
         this.CharacterName="";
@@ -84,14 +87,36 @@ export class GW2Character{
                 this.CharacterName = res.CharacterName;
                 this.Profession = res.CharacterProfession;
                 this.SetActivePvESpecializations(res.CharacterPvESpecs);
-                this.Bags = res.CharacterBags;
 
+                this.Bags = [];
+                for (let i = 0; i < res.CharacterBags.length; i++) {
+                    if(res.CharacterBags[i] !== null){
+                        let bag = new GW2Bag();
+                        bag.ItemID = res.CharacterBags[i].id;
+
+                        bag.Inventory = [];
+                        for (let j = 0; j < res.CharacterBags[i].inventory.length; j++) {
+                            const element = res.CharacterBags[i].inventory[j];
+                            bag.Inventory.push(element == null ? null : GW2Item.fromJSON(element));              
+                        }
+
+                        bag.Size = res.CharacterBags[i].size;
+                        this.Bags.push(bag);
+                    }
+                    else{
+                        this.Bags.push(null);
+                    }    
+                }
+                
                 let parallelLookups = [];
 
                 // 2.1. Get Default Equipment
                 parallelLookups.push(new GW2API_Call(apiKey).GetDefaultEquipmentData(characterName)
                 .then(res=>{
-                    this.BaseEquipment = res.Equipment;
+                    this.BaseEquipment = [];
+                    for (let i = 0; i < res.Equipment.length; i++) {
+                        this.BaseEquipment.push(res.Equipment[i] !== null ? GW2Item.fromJSON(res.Equipment[i]) : null);          
+                    }
                 }));
 
                 // 2.2. Get Equipment Tab List
@@ -159,16 +184,31 @@ export class GW2Character{
     }
 
     ReassignPrototypes(){
+        // 1. Reassign Prototypes for Equipment Tabs
         for (let i = 0; i < this.EquipmentTabs.length; i++) {
-            this.EquipmentTabs[i] = Object.assign(new GW2EquipmentTab(),this.EquipmentTabs[i]);          
+            this.EquipmentTabs[i] = Object.assign(new GW2EquipmentTab(),this.EquipmentTabs[i]);
+            this.EquipmentTabs[i].ReassignPrototypes();
         }
+        // 2. Reassign Prototypes for Bags
+        for (let i = 0; i < this.Bags.length; i++) {
+            if(this.Bags[i] !== null){
+                this.Bags[i] = Object.assign(new GW2Bag(),this.Bags[i]);
+                this.Bags[i]?.ReassignPrototypes();
+            }     
+        }  
+        // 3. Reassign Base Equipment Prototypes
+        for (let i = 0; i < this.BaseEquipment.length; i++) {
+            if(this.BaseEquipment[i] !== null){
+                this.BaseEquipment[i] = Object.assign(new GW2Item(),this.BaseEquipment[i]);
+            }
+        }  
     }
 
-    GetDefaultEquipmentSlot(slotName : string) : GW2JsonItemWrapper | null{
-        if(this.BaseEquipment === null) 
+    GetDefaultEquipmentSlot(slotName : string) : GW2Item | null{
+        if(this.BaseEquipment === null || this.BaseEquipment === undefined) 
             return null;
         for (let i = 0; i < this.BaseEquipment.length; i++) {
-            if(this.BaseEquipment[i].slot === slotName){
+            if(this.BaseEquipment[i]?.Slot === slotName){
                 return this.BaseEquipment[i];
             }     
         }

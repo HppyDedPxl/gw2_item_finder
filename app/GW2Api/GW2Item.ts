@@ -1,4 +1,5 @@
 import { GW2API_Call } from "./GW2API_Call";
+import { GW2JsonItemWrapper } from "./GW2Character";
 
 export class GW2Item {
     ItemID : number;
@@ -6,10 +7,56 @@ export class GW2Item {
     Name: string;
     IconUrl: string;
 
-    constructor(itemID: number){
-        this.ItemID = itemID;
+    Slot : string;
+    Upgrades : number[];
+    Infusions : number[];
+    Skin: number;
+    Stats: object;
+    Binding: string;
+    Dyes: number[];
+
+
+    constructor(){
+        this.ItemID = 0;
         this.Name = "";
         this.IconUrl = "";
+        this.Slot = "";
+        this.Upgrades = [];
+        this.Infusions = [];
+        this.Skin = 0;
+        this.Stats = {};
+        this.Binding = "";
+        this.Dyes = [];
+    }
+
+    static fromJSON(itemData: GW2JsonItemWrapper){
+        let item = new GW2Item();
+        item.ItemID = itemData.id;
+        item.Slot = itemData.slot;
+        item.Upgrades = itemData.upgrades;
+        item.Infusions = itemData.infusions;
+        item.Skin = itemData.skin;
+        item.Stats = itemData.stats;   
+        item.Binding = itemData.binding;
+        item.Dyes = itemData.dyes;
+
+        return item;
+    }
+
+    hasItemIdAsUpgradeOrInfusion(id:number) : boolean {
+        if(this.Infusions !== undefined){
+            for (let i = 0; i < this.Infusions.length; i++) {
+                if(this.Infusions[i] === id)
+                return true;          
+            }
+        }
+        if(this.Upgrades !== undefined){
+            for (let i = 0; i < this.Upgrades.length; i++) {
+                if(this.Upgrades[i] === id)
+                return true;          
+            }
+        }
+        return false;
     }
 
     populateFromAPI() : Promise<GW2Item>{

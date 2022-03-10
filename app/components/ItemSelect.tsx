@@ -102,7 +102,7 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
         control: (base) => ({
             ...base,
             minHeight:34,
-
+            
 
         }),
         dropdownIndicator: (styles) => ({

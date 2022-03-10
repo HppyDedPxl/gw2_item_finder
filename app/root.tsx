@@ -2,6 +2,7 @@ import {
   Links,
   LiveReload,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -58,12 +59,19 @@ function Document({children}) : JSX.Element {
 }
 
 const navigation = [
-  { name: 'Home', href: '/', current: true }
+  { name: 'Home', href: '/', current: true },
+  {name: 'How To', href: '/howto', current: false}
+  
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
+let activeStyle = 'bg-gray-900 text-white ';
+let inactiveStyle = 'text-gray-300 hover:bg-gray-700 hover:text-white ';
+let generalStyle = 'px-3 py-2 rounded-md text-sm font-medium ';
+
 
 function Layout({children}) : JSX.Element {
   return (
@@ -100,17 +108,15 @@ function Layout({children}) : JSX.Element {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <NavLink
                         key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                        to={item.href}
+                        className={({ isActive }) =>
+                         generalStyle + (isActive ? activeStyle : inactiveStyle)
+                        }
+                      
+                      >{item.name}</NavLink>
+                      
                     ))}
                   </div>
                 </div>
