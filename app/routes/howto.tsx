@@ -11,7 +11,7 @@ export default function Howto() {
                 <li type="1" className="list-inside">Click on the "New Key" button.</li>
                 <li type="1" className="list-inside">Enter a name of your choice and check at least the following permissions.
                     <div style={{width:"35%",marginLeft:"auto",marginRight:"auto",paddingTop:"8px",paddingBottom:"8px"}}>
-                        <a href="Tutorial.png" target="_blank"><img className="border-solid border-gray-500 rounded-md border-2 p-1" src="Tutorial.png"></img></a>
+                        <a href="tuto_permissions.png" target="_blank"><img className="border-solid border-gray-500 rounded-md border-2 p-1" src="Tutorial.png"></img></a>
                     </div> 
                 </li>
                
