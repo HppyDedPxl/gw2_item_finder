@@ -172,7 +172,7 @@ export default function Index() {
               <>
               <input type="password" name="api-key" id="api-key" className="flex focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-2 pr-2 py-1 sm:text-sm border-gray-300 rounded-md h-full" placeholder="API Key" onChange={e=>setinput_apiKey(e.target.value)}>
               </input>
-              <button name="confirm-button" id="confirm-button" className="flex flex-row pl-2 pr-2 py-1 sm:text-sm border-gray-300 rounded-md bg-green-300 ml-2 h-full w-3/12 place-items-center justify-items-auto hover:bg-green-700 hover:text-white" onClick={SetApiKey}> <p className="text-center w-full">Set Account</p> </button>
+              <button name="confirm-button" id="confirm-button" className="flex flex-row pl-2 pr-2 py-1 sm:text-sm border-gray-300 rounded-md bg-green-300 ml-2 h-full w-3/12 place-items-center justify-items-auto hover:bg-green-700 hover:text-white" onClick={SetApiKey}> <p className="text-center w-full text-xs md:text-md">Set Account</p> </button>
               </>
             )}
             {/* API KEY INPUT END */}
@@ -222,7 +222,7 @@ export default function Index() {
 
       </div>
     </div>
-    <div className="resultsContainer">
+    <div className="resultsContainerMobile lg:resultsContainer ">
     { itemCards.map((item)=>
       <div key={item.uid} className="py-2 px-2">
          <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID}/>

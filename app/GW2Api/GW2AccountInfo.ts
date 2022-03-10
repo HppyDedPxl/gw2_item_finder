@@ -176,7 +176,7 @@ export class GW2AccountInfo{
             if(this.SharedInventory[i] !== null){
                 if(this.SharedInventory[i]?.ItemID === searchId || this.SharedInventory[i]?.hasItemIdAsUpgradeOrInfusion(searchId)){
                     // check item itsel
-                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Shared Account Inventory", Slot: "Shared Account Inventory Slot: "+ i});
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Shared Account Inventory", Slot: String(i+1), Location:"Shared Inventory"});
                 }
             }   
         }
@@ -188,7 +188,7 @@ export class GW2AccountInfo{
                     let bankTab : number = Math.floor(i / 30);
                     let slot = i - (bankTab * 30);
 
-                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Account Bank. Tab: "+bankTab +" Slot:" + (slot-1)});
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Tab: "+(bankTab+1) +" Slot:" + (slot+1), Location:"Account Bank"});
 
                 }
             }   
@@ -201,7 +201,7 @@ export class GW2AccountInfo{
             for (let i = 0; i < slotsToCheck.length; i++) {
                 let element : GW2Item | null = character.GetDefaultEquipmentSlot(slotsToCheck[i]);
                 if(element !== null && element.ItemID === searchId) {
-                    hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Default Equipment", Slot: slotsToCheck[i]});
+                    hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Default Equipment", Slot: slotsToCheck[i], Location:"Equipment"});
                 }
             }
 
@@ -212,7 +212,7 @@ export class GW2AccountInfo{
                 for (let j = 0; j < bag.Inventory.length; j++) {
                     const item = bag.Inventory[j];
                     if(item !== null && item.ItemID === searchId || item?.hasItemIdAsUpgradeOrInfusion(searchId)){
-                        hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Inventory", Slot: "Character Inventory, Bag Nr.: " + i +" Slot: " + j});
+                        hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Inventory", Slot: "Bag: " + (i+1) +" Slot: " + (j+1), Location:"Inventory"});
                     }
                     
                 }            
@@ -223,13 +223,13 @@ export class GW2AccountInfo{
                 equipmentTab.equipment.forEach(item => {                
                     // check if the item in question is the item we are looking for
                     if(item.id === searchId)
-                        hits.push({uuid: GenerateUID(), Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot});
+                        hits.push({uuid: GenerateUID(), Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab"});
 
                     // check if the item is one of the infusions
                     if(item.infusions !== undefined){
                         item.infusions.forEach(infusion => {
                             if(infusion === searchId){
-                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot});
+                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab"});
                             }
                         });
                     }
@@ -238,7 +238,7 @@ export class GW2AccountInfo{
                     if(item.upgrades !== undefined){
                         item.upgrades.forEach(upgrade => {
                             if(upgrade === searchId){
-                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot});
+                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab"});
                             }
                         });
                     }

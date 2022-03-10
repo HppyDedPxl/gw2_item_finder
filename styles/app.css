@@ -16,10 +16,27 @@ html{
     display: table;
     width:100%;
 }
-
-.resultsContainer{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-flow: row;
+@layer
+utilities  {
+    .resultsContainer{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-flow: row;  
+    }
     
+    .resultsContainerMobile{
+        display:grid;
+        grid-template-columns: 1fr;
+        grid-auto-flow: row;
+    }
+
+    .wrap-anywhere{
+        overflow-wrap:anywhere;
+    }
+}
+
+
+.resultGridCol{
+    display:flex;
+    flex-direction:row;
 }

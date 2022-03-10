@@ -14,6 +14,7 @@ export type GW2AccountSearchResult = {
     Character: GW2Character | null,
     EquipmentTabNr: number,
     EquipmentTabName: string,
+    Location: string,
     Slot: string,
 }
 

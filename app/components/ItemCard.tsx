@@ -96,34 +96,45 @@ const ItemSearch = (props : ItemCard) => {
                 {result.length > 0 ? (
                     <>
                 {result.map(r=>(
-                <div key={r.uuid}>
-          
-                    <div className="bg-gray-900 my-1 mx-1 my-1 py-1 px-4 h-8 flex flex-row border-solid border-gray-900 rounded-xl">       
-                    {r.Character === null ? 
-                    (<>
-                      <div className="flex items-center justify-center text-white">No Character</div>
-                    </>) 
-                    : 
-                    (<>
-                        <img src={"icons/"+r.Character.GetCharacterClass()+".png"} className="h-full pr-2"></img>
-                        <div className="flex items-center justify-center text-white">{r.Character.CharacterName} </div>
-                        </>
-                    )}       
-                    
-                    {r.EquipmentTabNr !== 0 ? 
-                    (<>
-                      <div className="flex items-center justify-center text-white pl-4 text-gray-300"> Equipment Tab: </div>
-                        <div className="flex items-center justify-center text-white pl-1">{r.EquipmentTabNr} </div>
-                    </>)
-                    :
-                    (<></>)               
-                    }
-                    <div className="flex items-center justify-center text-white pl-4">Slot: </div>
-                    <div className="flex items-center justify-center text-white pl-1 text-yellow-500">{r.Slot}</div>
+                <div key={r.uuid}>   
+                    <div className="bg-gray-900 my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-gray-900 rounded-xl text-xs">       
+                        <div className="grid grid-cols-2 md:grid-cols-3 w-full">
 
+                        {r.Character === null ? 
+                        (<>
+                        <div className="resultGridCol col-span-2 md:col-span-1">
+                            <div className="flex items-center justify-center text-white">No Character</div>
+                        </div>
+                        </>) 
+                        : 
+                        (<>
+                            <div className="resultGridCol col-span-2 md:col-span-1">
+                                <img src={"icons/"+r.Character.GetCharacterClass()+".png"} className="h-6 pr-2"></img>
+                                <div className="flex items-center justify-center text-white wrap-anywhere">{r.Character.CharacterName} </div>
+                            </div>
+                            </>
+                        )}       
+                        
+                        {r.EquipmentTabNr !== 0 ? 
+                        (<>
+                            <div className="resultGridCol">
+                                <div className="flex items-center justify-center text-white pl-4 text-gray-300"> Equipment Tab: </div>
+                                <div className="flex items-center justify-center text-white pl-1 text-yellow-500">{r.EquipmentTabNr} </div>
+                            </div>
+                        </>)
+                        :
+                        (<>
+                            <div className="resultGridCol">
+                                <div className="flex items-center justify-center text-white pl-4 text-gray-300"> {r.Location} </div>
+                            </div>
+                        </>)               
+                        }
+                            <div className="resultGridCol col-span-1">
+                                <div className="flex items-center justify-center text-white pl-4">Slot: </div>
+                                <div className="flex items-center justify-center text-white pl-1 text-yellow-500 wrap-anywhere">{r.Slot}</div>
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
             ))}
                     </>
