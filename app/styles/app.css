@@ -834,10 +834,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding: 0.25rem;
 }
 
-.p-\[-1\] {
-  padding: -1;
-}
-
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -987,10 +983,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .outline-gray-900 {
   outline-color: #111827;
-}
-
-.outline-yellow-900 {
-  outline-color: #713f12;
 }
 
 .filter {

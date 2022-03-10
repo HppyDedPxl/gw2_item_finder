@@ -144,8 +144,8 @@ export default function Index() {
   let loaderData = useLoaderData();
   return (
     <>
-    <div className="bg-gray-800 outline rounded-2xl outline-2 outline-gray-900 overflow-hidden">
-    <div className="h-auto w-full bg-gray-900 p-3 text-white text-md"><h2 className="text-md">Account</h2></div>
+    <div className="bg-gray-800 outline rounded-2xl outline-2 outline-gray-900">
+    <div className="h-auto w-full bg-gray-900 p-3 rounded-t-2xl text-white text-md"><h2 className="text-md">Account</h2></div>
       <div className='px-4 py-4'>   
         {/* ACCOUNT SECTION */}
       
