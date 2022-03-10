@@ -113,8 +113,6 @@ export class GW2AccountInfo{
     }
 
     getTimeSinceLastUpdated() : number{
-        console.log(Date.now());
-        console.log(this.LastUpdate);
         return Date.now() - this.LastUpdate;
     }
 
@@ -283,7 +281,6 @@ export function DeserializeGW2AccountInfo(data: string) : GW2AccountInfo {
         dataObj.Characters[i].ReassignPrototypes();
         
     }
-    console.log(dataObj);
     return dataObj;
     
 }

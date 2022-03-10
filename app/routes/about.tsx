@@ -41,8 +41,8 @@ export default function About(){
                 
                 <div className="pb-1"></div>
                 <div className="flex flex-row w-full pt-1">    
-                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-green-700 hover:bg-green-500 text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.location.href='https://status.gw2efficiency.com/'}}>Check the API Status!</button>
-                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-red-700 hover:bg-red-500 text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.location.href='https://github.com/HppyDedPxl/gw2_item_finder/issues'}}>Create a bug report!</button>
+                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-green-700 hover:bg-green-500 text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://status.gw2efficiency.com/','_blank')}}>Check the API Status!</button>
+                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-red-700 hover:bg-red-500 text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://github.com/HppyDedPxl/gw2_item_finder/issues','_blank')}}>Create a bug report!</button>
                 
                 </div>
             </div>
