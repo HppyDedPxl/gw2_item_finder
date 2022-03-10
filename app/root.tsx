@@ -16,6 +16,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { GW2OfflineItemCache } from "./GW2Api/GW2OfflineItemCache";
+import  Footer from "./components/Footer";
 
 export function links(){
   return [{rel: "stylesheet", href: styles}];
@@ -45,13 +46,15 @@ function Document({children}) : JSX.Element {
       <Meta />
       <Links />
     </head>
-    <body className="mainBody h-full">
-      <div>
+    <body className="mainBody h-full w-full">
+      <div className="h-full w-full">
       {children}
       <ScrollRestoration />
       <Scripts />
       <LiveReload />
+      
       </div>
+      <Footer/>
     </body>
   </html>
   );
@@ -60,8 +63,7 @@ function Document({children}) : JSX.Element {
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
-  {name: 'How To', href: '/howto', current: false}
-  
+  {name: 'How To', href: '/howto', current: false},
 ]
 
 function classNames(...classes) {
@@ -71,6 +73,8 @@ function classNames(...classes) {
 let activeStyle = 'bg-gray-900 text-white ';
 let inactiveStyle = 'text-gray-300 hover:bg-gray-700 hover:text-white ';
 let generalStyle = 'px-3 py-2 rounded-md text-sm font-medium ';
+
+
 
 
 function Layout({children}) : JSX.Element {
@@ -149,6 +153,7 @@ function Layout({children}) : JSX.Element {
     <div className="container mx-auto h-full-8 px-6 my-10 content-center">
       {children}
     </div>
+
   </>
   );
 }
