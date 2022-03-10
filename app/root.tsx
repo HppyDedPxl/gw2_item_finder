@@ -104,6 +104,7 @@ function Layout({children}) : JSX.Element {
                     src="logo.png"
                     alt="Workflow"
                   />
+                  <div className="fancyHeader text-white pl-2 font-mono">Find My Skritt!</div>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

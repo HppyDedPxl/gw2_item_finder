@@ -10,6 +10,7 @@ import { GW2OfflineItemCache } from '~/GW2Api/GW2OfflineItemCache';
 import Async, { useAsync } from 'react-select/async';
 import AsyncSelect from 'react-select/async';
 import ItemSelect from '~/components/ItemSelect';
+import Howto from './howto';
 
 function ConvertTimespanToTimeString(span: number) {
   span = span/1000;
@@ -143,13 +144,12 @@ export default function Index() {
   let loaderData = useLoaderData();
   return (
     <>
-    <div className="bg-gray-800 border-solid rounded-2xl px-5 py-5 border-2 border-gray-900">
-      <div>   
+    <div className="bg-gray-800 outline rounded-2xl outline-2 outline-gray-900 overflow-hidden">
+    <div className="h-auto w-full bg-gray-900 p-3 text-white text-md"><h2 className="text-md">Account</h2></div>
+      <div className='px-4 py-4'>   
         {/* ACCOUNT SECTION */}
+      
         <div className="flex flex-row place-items-center justify-items-auto w-full">
-          <label className=" flex block text-sm font-medium text-white px-1 pt-1">
-            Account
-            </label>
             {
               HasValidAccount() ? (<div className="flex text-xs text-gray-400">Last Refreshed: {accountInfo?ConvertTimespanToTimeString(accountInfo?.getTimeSinceLastUpdated()):"invalid"} ago</div>) : (<></>)
             }        
@@ -222,6 +222,15 @@ export default function Index() {
 
       </div>
     </div>
+
+    {HasValidAccount() ? (<></>) : 
+    (
+    <>
+    <div className="py-2"></div>
+      {Howto()}
+    </>)
+    }
+
     <div className="resultsContainerMobile lg:resultsContainer ">
     { itemCards.map((item)=>
       <div key={item.uid} className="py-2 px-2">
