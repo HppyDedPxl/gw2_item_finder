@@ -52,28 +52,27 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
 
     promiseItemOptions = (inputValue: string) =>
         new Promise<ItemOption[]>(resolve=>{
-        console.log(inputValue);
+       
         let itemDb = Object.assign(new GW2OfflineItemCache(), this.props.ItemCache);
         let matches : GW2CacheFilterResult[] = itemDb.GetAllMatching(inputValue);
         let options : ItemOption[] = [];
         for (let i = 0; i < matches.length && i < 40; i++) {
             const element = matches[i];
-            options.push({value:element.Key,label: element.Name + " [" + element.Key+"]",icon:element.IconUrl});   
+            options.push({value:element.Key,label: element.Name,icon:element.IconUrl});   
         }
         resolve(options);
     });
 
     onInputChange =  (query:any, { action }) => {
-        console.log(action);
+
          if(action !== "set-value"){
-             console.log(query);
             this.setState({inputValue: query});
             this.setState({inputBackup:query});
             return query;
             
          }
         else{
-            console.log(query);
+
             this.setState({inputValue: this.state.inputBackup});
             return this.state.inputBackup;
         }
@@ -90,12 +89,14 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
       }
 
     singleOption = (props: OptionProps<any>) => (
-        <components.Option {...props}>
-           <div className="flex flex-row-full h-7">
-          {props.data.icon? <img className="flex h-full w-auto rounded-md border-2 border-solid border-gray-300" src={props.data.icon}/> : null}
-          <div className="flex pl-4">{props.label}</div>
+        <div className="flex border-solid border-gray border-b-2 py-2 xs:py-0 h-12 sm:h-9 md:h-7">
+
+           <div className="flex flex-row-full h-full items-center align-center pr-2">
+          {props.data.icon? <img className="flex h-full w-0 rounded-md border-2 border-solid border-gray-300 invisible xs:w-auto xs:visible" src={props.data.icon}/> : null}
+          <div className="flex pl-4 text-xs md:text-sm">{props.label}</div><sup>{props.data.value}</sup>
           </div>
-        </components.Option>)
+
+        </div>)
 
     
     selectBaseStyle = {

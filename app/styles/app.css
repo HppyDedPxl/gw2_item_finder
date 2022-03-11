@@ -472,6 +472,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
+@media (min-width: 360px) {
+  .container {
+    max-width: 360px;
+  }
+}
+
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
@@ -512,6 +518,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 .static {
@@ -645,6 +655,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 1.25rem;
 }
 
+.h-9 {
+  height: 2.25rem;
+}
+
+.h-11 {
+  height: 2.75rem;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -659,6 +681,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-7 {
   width: 1.75rem;
+}
+
+.w-0 {
+  width: 0px;
 }
 
 .w-3\/12 {
@@ -774,12 +800,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 2px;
 }
 
-.border-t-2 {
-  border-top-width: 2px;
-}
-
 .border-b-2 {
   border-bottom-width: 2px;
+}
+
+.border-t-2 {
+  border-top-width: 2px;
 }
 
 .border-solid {
@@ -1122,8 +1148,16 @@ html{
 .footer {
   flex-shrink: 0;
   text-align: center;
-  background-color: tomato;
-  color: white;
+}
+
+sup {
+  padding-top:2px;
+  vertical-align:text-top;
+  font-size: x-small;
+  font-style: italic;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding-left:2px;
+  padding-right:2px;
 }
 
 .hover\:rounded-md:hover {
@@ -1209,6 +1243,10 @@ html{
     display: none;
   }
 
+  .sm\:h-9 {
+    height: 2.25rem;
+  }
+
   .sm\:items-stretch {
     align-items: stretch;
   }
@@ -1222,6 +1260,11 @@ html{
     padding-right: 1.5rem;
   }
 
+  .sm\:py-0 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -1233,8 +1276,22 @@ html{
     grid-column: span 1 / span 1;
   }
 
+  .md\:h-7 {
+    height: 1.75rem;
+  }
+
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:py-0 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  .md\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
 
@@ -1256,5 +1313,20 @@ html{
     display:grid;
     grid-template-columns: 1fr 1fr;
     grid-auto-flow: row;
+  }
+}
+
+@media (min-width: 360px) {
+  .xs\:visible {
+    visibility: visible;
+  }
+
+  .xs\:w-auto {
+    width: auto;
+  }
+
+  .xs\:py-0 {
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 }
