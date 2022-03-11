@@ -142,7 +142,6 @@ export class GW2API_Call {
 
     GetItemData(itemId: number) : Promise<ItemDataResult>{
         return new Promise<ItemDataResult>((resolve,error)=>{
-            console.log(isNaN(itemId));
             if(!itemId || isNaN(itemId)){
                 error("Item ID does not exist!");
                 return;

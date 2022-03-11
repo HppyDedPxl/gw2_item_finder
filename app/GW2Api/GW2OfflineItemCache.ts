@@ -40,7 +40,10 @@ export class GW2OfflineItemCache{
             const value : GW2OfflineItem = this.ItemDatabase[parseInt(keys[i])];
             if(value.Name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())){
                 matches.push({Key:keys[i],Name:value.Name,IconUrl:value.IconUrl})
-            }       
+            }
+            if(keys[i].toLocaleLowerCase().includes(searchString.toLocaleLowerCase())){
+                matches.push({Key:keys[i],Name:value.Name,IconUrl:value.IconUrl})
+            }
         }
         return matches;
     }

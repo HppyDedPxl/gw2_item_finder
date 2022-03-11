@@ -3,8 +3,8 @@ import { SocialIcon } from "react-social-icons"
 export default function About(){
     return(
         <>
-        <div className="bg-gray-800 outline rounded-2xl outline-2 outline-gray-900 overflow-hidden">
-            <div className="h-auto w-full bg-gray-900 p-3 text-white text-md outline-gray-900 outline outline-5"><h2 className="text-md">About</h2></div>
+        <div className="bg-primary outline rounded-2xl outline-2 outline-secondary overflow-hidden">
+            <div className="h-auto w-full bg-secondary p-3 text-white text-md outline-secondary outline outline-5"><h2 className="text-md">About</h2></div>
             <div className="p-4 text-xs text-white">
                 <div>
                 <div className="flex flex-row h-5 w-full pt-1">
@@ -13,11 +13,11 @@ export default function About(){
                 <div className="pl-2">
                 <div className="flex flex-row h-5 w-full pt-1">
                 <div className="align-middle"><SocialIcon network="twitter"style={{height:"14px",width:"14px"}} color="white"></SocialIcon></div>
-                    <p className="flex pl-1"><a className="text-gray-500 hover:text-white hover:transition-all transition-all" href="https://twitter.com/HppyPxl" target="_blank">@HppyPxl</a></p>
+                    <p className="flex pl-1"><a className="text-link hover:text-white hover:transition-all transition-all" href="https://twitter.com/HppyPxl" target="_blank">@HppyPxl</a></p>
                 </div>
                 <div className="flex flex-row h-5 w-full pt-1">
                     <CodeIcon className="flex pr-1" color="white" fontSize={2}></CodeIcon>
-                    <p className="flex"><a className="text-gray-500 hover:text-white hover:transition-all transition-all" href="https://github.com/HppyDedPxl/gw2_item_finder" target="_blank">Find the Source on Github</a></p>
+                    <p className="flex"><a className="text-link hover:text-white hover:transition-all transition-all" href="https://github.com/HppyDedPxl/gw2_item_finder" target="_blank">Find the Source on Github</a></p>
                 </div>
                 <div className="flex flex-row h-5 w-full pt-1">
                     <MailIcon className="flex pr-1" color="white" fontSize={2}></MailIcon>
@@ -32,7 +32,7 @@ export default function About(){
                     <div className="pl-2">
                     <div className="flex flex-row h-5 w-full pt-1">    
                     <div className="align-middle"><SocialIcon network="twitter" style={{height:"14px",width:"14px"}} color="white"></SocialIcon></div>             
-                    <p className="flex pl-1"><a className="text-gray-500 hover:text-white hover:transition-all transition-all" href="https://twitter.com/Rolilichan" target="_blank">@Rolilichan (Logo Design)</a> </p>
+                    <p className="flex pl-1"><a className="text-link hover:text-white hover:transition-all transition-all" href="https://twitter.com/Rolilichan" target="_blank">@Rolilichan (Logo Design)</a> </p>
                     </div>
                     </div>   
                 </div>
@@ -41,8 +41,8 @@ export default function About(){
                 
                 <div className="pb-1"></div>
                 <div className="flex flex-row w-full pt-1">    
-                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-green-700 hover:bg-green-500 text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://status.gw2efficiency.com/','_blank')}}>Check the API Status!</button>
-                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-red-700 hover:bg-red-500 text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://github.com/HppyDedPxl/gw2_item_finder/issues','_blank')}}>Create a bug report!</button>
+                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-info  text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://status.gw2efficiency.com/','_blank')}}>Check the API Status!</button>
+                <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-negative  text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://github.com/HppyDedPxl/gw2_item_finder/issues','_blank')}}>Create a bug report!</button>
                 
                 </div>
             </div>

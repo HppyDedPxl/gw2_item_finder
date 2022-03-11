@@ -70,7 +70,7 @@ const ItemSearch = (props : ItemCard) => {
 
     return isError ? (
         <>
-         <div className="bg-gray-800 border-solid border-red-800 border-4 rounded-md overflow-hidden">
+         <div className="bg-primary border-solid border-red-800 border-4 rounded-md overflow-hidden">
             <div className="grid flex-col">
                 <div className="flex items-center justify-center text-white  pt-3">Oh no! Something went wrong!</div>
                 <div className="flex items-center justify-center text-white  pt-1 pb-3">{Error}</div>
@@ -79,7 +79,7 @@ const ItemSearch = (props : ItemCard) => {
         </>
 
     ) : (
-        <div className="bg-gray-800 outline outline-6 outline-gray-900 pb-1 rounded-md">
+        <div className="bg-primary outline outline-6 outline-secondary pb-1 rounded-md">
         {isLoading ? (
              <div className="grid flex-col">
                 <div className="flex items-center justify-center text-white px-20 py-16"><PacmanLoader color="white"></PacmanLoader></div>
@@ -87,17 +87,20 @@ const ItemSearch = (props : ItemCard) => {
 
         ) : (
             <div>
-                <div className="bg-gray-900 rounded-t-2xl h-8 flex flex-row">
+                <div className="bg-secondary h-8 flex flex-row">
                     <img src={searchItem?.IconUrl} className="h-full rounded-md "></img>
                     <div className="flex w-full items-center justify-center text-white text-sm">{searchItem?.Name} [{searchItem?.ItemID}]</div>
-                    <button className="flex bg-red-600 hover:bg-red-400 w-8 h-8 rounded-md items-center justify-center text-white hover:text-black" onClick={onRemoveClicked}><XIcon></XIcon></button>
+                    <div className="flex w-7 h-7 my-auto items-center justify-center mr-1">
+                    <button className="transition-all hover:transition-all bg-negative h-7 w-7 rounded-2xl hover:rounded-md items-center justify-center text-black p-1" onClick={onRemoveClicked}><XIcon style={{alignSelf:'center'}}></XIcon></button>
+
+                    </div>
                 </div>
                 <div className="my-2 px-4">
                 {result.length > 0 ? (
                     <>
                 {result.map(r=>(
                 <div key={r.uuid}>   
-                    <div className="bg-gray-900 my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-gray-900 rounded-xl text-xs">       
+                    <div className="bg-quaternary my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-secondary rounded-xl text-xs">       
                         <div className="grid grid-cols-2 md:grid-cols-3 w-full">
 
                         {r.Character === null ? 
@@ -118,8 +121,8 @@ const ItemSearch = (props : ItemCard) => {
                         {r.EquipmentTabNr !== 0 ? 
                         (<>
                             <div className="resultGridCol">
-                                <div className="flex items-center justify-center text-white pl-4 text-gray-300"> Equipment Tab: </div>
-                                <div className="flex items-center justify-center text-white pl-1 text-yellow-500">{r.EquipmentTabNr} </div>
+                                <div className="flex items-center justify-center text-white pl-4 text-gra-300"> Equipment Tab: </div>
+                                <div className="flex items-center justify-center text-white pl-1 text-positive">{r.EquipmentTabNr} </div>
                             </div>
                         </>)
                         :
@@ -131,7 +134,7 @@ const ItemSearch = (props : ItemCard) => {
                         }
                             <div className="resultGridCol col-span-1">
                                 <div className="flex items-center justify-center text-white pl-4">Slot: </div>
-                                <div className="flex items-center justify-center text-white pl-1 text-yellow-500 wrap-anywhere">{r.Slot}</div>
+                                <div className="flex items-center justify-center text-white pl-1 text-positive wrap-anywhere">{r.Slot}</div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +142,7 @@ const ItemSearch = (props : ItemCard) => {
             ))}
                     </>
                 ) : (
-                    <div className="bg-gray-900 my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-gray-900 rounded-xl text-xs">            
+                    <div className="bg-quaternary my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-secondary rounded-xl text-xs">            
                         <div className="flex items-center justify-center text-white text-xs mx-auto ">Item not found on this Account. Skritt are very sorry :(</div>
                     </div>
                 )}

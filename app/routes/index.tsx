@@ -119,7 +119,6 @@ export default function Index() {
   }
 
   function FindItems(){
-    console.log(input_itemSelection);
     for (let i = 0; i < input_itemSelection.length; i++) {
       FindItem(input_itemSelection[i]['value']); 
     }
@@ -140,12 +139,11 @@ export default function Index() {
     }
   },[]);
 
-  console.log(itemCards);
   let loaderData = useLoaderData();
   return (
     <>
-    <div className="bg-gray-800 outline rounded-md outline-2 outline-gray-900">
-    <div className="h-auto w-full bg-gray-900 p-1 pl-4 rounded-t-md text-white text-md"><h2 className="text-md">Account</h2></div>
+    <div className="bg-primary outline rounded-md outline-2 outline-secondary">
+    <div className="h-auto w-full bg-secondary p-1 pl-4 rounded-t-md text-white text-md"><h2 className="text-md">Account</h2></div>
       <div className='px-4 py-4'>   
         {/* ACCOUNT SECTION */}
       
@@ -183,12 +181,12 @@ export default function Index() {
           <>
           {/* ACCOUNT DETAILS DISPLAY */}
             <div className="flex flex-row place-items-center justify-items-auto w-full">
-              <div className="flex flex-row place-items-center justify-items-auto w-full bg-white pl-2 rounded-md border-1 border-solid border-gray-900">
+              <div className="flex flex-row place-items-center justify-items-auto w-full bg-white pl-2 rounded-md border-1 border-solid border-secondary">
                 <div className="flex w-full">{accountInfo?.AccountName}</div>
                
               </div>
-              <button className="flex h-auto w-7 ml-1 text-white hover:text-gray-400  bg-blue-600 rounded-md border-2 border-blue-900 border-solid hover:bg-blue-800 hover:text-white" name="remove-account-button" id="remove-account-button" onClick={RefreshAccount}><RefreshIcon color='black' style={{alignSelf:'center'}}></RefreshIcon></button>
-              <button className="flex h-auto w-7 ml-1 text-white hover:text-gray-400  bg-red-600 rounded-md border-2 border-red-900 border-solid hover:bg-red-800 hover:text-white" name="remove-account-button" id="remove-account-button"onClick={RemoveAccount}><XIcon color='black' style={{alignSelf:'center'}}></XIcon></button>
+              <button className="flex  transition-all hover:transition-all h-auto w-7 ml-1 text-white hover:text-gray-400 bg-info rounded-2xl hover:rounded-md hover:text-white p-1" name="remove-account-button" id="remove-account-button" onClick={RefreshAccount}><RefreshIcon color='black' style={{alignSelf:'center'}}></RefreshIcon></button>
+              <button className="flex transition-all hover:transition-all h-auto w-7 ml-1 text-white hover:text-gray-400 bg-negative rounded-2xl hover:rounded-md border-solid hover:text-white p-1" name="remove-account-button" id="remove-account-button"onClick={RemoveAccount}><XIcon color='black' style={{alignSelf:'center'}}></XIcon></button>
             </div>
           {/* ACCOUNT DETAILS DISPLAY END*/}
 
@@ -210,7 +208,7 @@ export default function Index() {
           <div className='flex flex-row lace-items-center justify-items-auto'>
           <ItemSelect ItemCache={loaderData.ItemDB} onChange={OnMultiSelectChanged}></ItemSelect>
           <div className="px-1"></div>
-          <button name="confirm-button" id="confirm-button" className="flex pl-2 pr-2 rounded-md border-gray-300 bg-green-300 hover:bg-green-500 h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
+          <button name="confirm-button" id="confirm-button" className="flex transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-positive h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
           </div>
         </>
         )
