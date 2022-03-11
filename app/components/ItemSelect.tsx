@@ -1,7 +1,8 @@
 import React from "react";
 import { Component, ReactNode } from "react";
-import { ActionMeta, components, OnChangeValue, OptionProps, StylesConfig } from "react-select";
+import { ActionMeta, components, MultiValueProps, OnChangeValue, OptionProps, SingleValueProps, StylesConfig } from "react-select";
 import AsyncSelect from "react-select/async";
+import SingleValue from "react-select/dist/declarations/src/components/SingleValue";
 import { valueTernary } from "react-select/dist/declarations/src/utils";
 import { GW2CacheFilterResult, GW2OfflineItemCache } from "~/GW2Api/GW2OfflineItemCache";
 
@@ -90,13 +91,31 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
 
     singleOption = (props: OptionProps<any>) => (
         <div className="flex border-solid border-gray border-b-2 py-2 xs:py-0 h-12 sm:h-9 md:h-7">
-
+            <components.Option {...props}>
            <div className="flex flex-row-full h-full items-center align-center pr-2">
           {props.data.icon? <img className="flex h-full w-0 rounded-md border-2 border-solid border-gray-300 invisible xs:w-auto xs:visible" src={props.data.icon}/> : null}
-          <div className="flex pl-4 text-xs md:text-sm">{props.label}</div><sup>{props.data.value}</sup>
+          <div className="flex pl-4 text-xs md:text-sm">{props.label}</div><sup>{props.data.value}</sup>      
           </div>
+          </components.Option>
 
         </div>)
+
+    singleValue = (props: SingleValueProps<any>) => (
+        <components.SingleValue {...props}>
+            <div className="flex flex-row-full h-full items-center align-center pr-2">
+          {props.data.icon? <img className="flex h-full w-0 rounded-md border-2 border-solid border-gray-300 invisible xs:w-auto xs:visible" src={props.data.icon}/> : null}
+          <div className="flex pl-4 text-xs md:text-sm">{props.data.label}</div><sup>{props.data.value}</sup>      
+          </div>
+        </components.SingleValue>
+    )
+
+    multiValue = (props: MultiValueProps<any>) => (
+        <components.MultiValue {...props}>
+        <div className="flex flex-row-full items-center align-center">
+      <div className="flex text-xs md:text-sm">{props.data.label}</div><sup>{props.data.value}</sup>      
+      </div>
+        </components.MultiValue>
+    )
 
     
     selectBaseStyle = {
@@ -104,7 +123,6 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
             ...base,
             minHeight:34,
             
-
         }),
         dropdownIndicator: (styles) => ({
             ...styles,
@@ -116,6 +134,12 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
             paddingTop: 2,
             paddingBottom: 2,
         }),
+        option:(provided, state) =>({
+            ...provided,
+            padding: 0,
+            paddingLeft:'4px',
+            margin: 0,
+        })
     }
 
     render(): ReactNode {
@@ -134,7 +158,10 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
         blurInputOnSelect={false}
         styles={this.selectBaseStyle}
         components={{ 
-            Option: this.singleOption}}
+            Option: this.singleOption,
+            SingleValue: this.singleValue,
+            MultiValue: this.multiValue
+        }}
         loadOptions={this.promiseItemOptions}
 
       />

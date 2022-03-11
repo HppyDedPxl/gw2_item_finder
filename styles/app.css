@@ -56,3 +56,11 @@ sup {
     padding-left:2px;
     padding-right:2px;
 }
+
+.dot{
+    height: 2px;
+    width: 2px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+}
