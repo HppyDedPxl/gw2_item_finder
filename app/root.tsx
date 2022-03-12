@@ -101,20 +101,20 @@ function Layout({children}) : JSX.Element {
                 </Disclosure.Button>
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center">
+                <div className="flex-shrink-0 flex items-center align-center pr-8">
                   <img
-                    className="block lg:hidden h-8 w-auto"
-                    src="logo.png"
+                    className="flex lg:hidden h-16 w-auto"
+                    src="logo-skritt.png"
                     alt="Workflow"
                   />
                   <img
-                    className="hidden lg:block h-8 w-auto"
-                    src="logo.png"
+                    className="hidden lg:block h-16 w-auto"
+                    src="logo-skritt.png"
                     alt="Workflow"
                   />
                   <div className="fancyHeader text-white pl-2 titleFont text-xl">Find My Skritt!</div>
                 </div>
-                <div className="hidden sm:block sm:ml-6">
+                <div className="hidden sm:flex sm:ml-6 align-center items-center">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <NavLink
