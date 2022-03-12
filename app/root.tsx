@@ -80,7 +80,7 @@ let generalStyle = 'px-3 py-2 rounded-md text-sm font-medium  ';
 function Layout({children}) : JSX.Element {
   return (
   <>
- <Disclosure as="nav" className="bg-primary border-b-4 border-secondary">
+ <Disclosure as="nav" className="bg-primary border-b-4 border-secondary shadow-nav">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">

@@ -3,7 +3,7 @@ export default function Howto() {
 
     return(
         <>
-        <div className="bg-primary outline rounded-2xl outline-2 outline-secondary overflow-hidden">
+        <div className="bg-primary outline rounded-2xl outline-2 outline-secondary overflow-hidden shadow-sp">
 
             <div className="h-auto w-full bg-secondary p-3 text-white text-md outline-secondary outline outline-5"><h2 className="text-md">Setting up your Account</h2></div>
             <ol className="list-disc text-white test-sx text-xs px-5 py-5" type="1">

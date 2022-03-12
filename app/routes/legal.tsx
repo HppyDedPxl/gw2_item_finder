@@ -1,7 +1,7 @@
 export default function Legal(){
     return(
         <>
-        <div className="bg-primary outline rounded-2xl outline-2 outline-secondary overflow-hidden">
+        <div className="bg-primary outline rounded-2xl outline-2 outline-secondary overflow-hidden shadow-sp">
             <div className="h-auto w-full bg-secondary p-3 text-white text-md outline-secondary outline outline-5"><h2 className="text-md">Legal Disclaimers</h2></div>
                 <div className="p-4 text-white text-xs">
 

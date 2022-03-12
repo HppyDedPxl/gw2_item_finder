@@ -100,15 +100,6 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
 
         </div>)
 
-    singleValue = (props: SingleValueProps<any>) => (
-        <components.SingleValue {...props}>
-            <div className="flex flex-row-full h-full items-center align-center pr-2">
-          {props.data.icon? <img className="flex h-full w-0 rounded-md border-2 border-solid border-gray-300 invisible xs:w-auto xs:visible" src={props.data.icon}/> : null}
-          <div className="flex pl-4 text-xs md:text-sm">{props.data.label}</div><sup>{props.data.value}</sup>      
-          </div>
-        </components.SingleValue>
-    )
-
     multiValue = (props: MultiValueProps<any>) => (
         <components.MultiValue {...props}>
         <div className="flex flex-row-full items-center align-center">

@@ -23,6 +23,12 @@ module.exports = {
         negative:"#ff4040ff",
         info:"#2b97fd"
       },
+      boxShadow: {
+        'sp' : '4px 4px 4px rgba(0,0,0,0.7)',
+        'nav' : '0px 4px 4px rgba(0,0,0,0.7)',
+        'footer' : '0px -4px 4px rgba(0,0,0,0.7)',
+
+      }
     }
   },
   plugins: [],

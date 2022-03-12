@@ -5,7 +5,7 @@ export type FooterProps = {
 }
 
 const Footer = (props: FooterProps) => (
-    <footer className="bg-primary text-white h-12 sm:h-8 border-t-4 border-secondary font-serif">
+    <footer className="bg-primary text-white h-12 sm:h-8 border-t-4 border-secondary font-serif shadow-footer">
  
         <div className="grid grid-cols-2 w-full h-full">
         <div></div>

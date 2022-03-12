@@ -9,7 +9,7 @@ import { BarLoader, RingLoader } from 'react-spinners';
 import { GW2OfflineItemCache } from '~/GW2Api/GW2OfflineItemCache';
 import Async, { useAsync } from 'react-select/async';
 import AsyncSelect from 'react-select/async';
-import ItemSelect from '~/components/ItemSelect';
+import ItemSelect, { ItemOption } from '~/components/ItemSelect';
 import Howto from './howto';
 
 function ConvertTimespanToTimeString(span: number) {
@@ -43,7 +43,7 @@ export default function Index() {
   const [itemAmount, setItemAmount] = useState(0);
   const [input_apiKey, setinput_apiKey] = useState("")
   const [input_itemID, setinput_itemID] = useState("")
-  const [input_itemSelection,setinput_itemSelection] = useState([])
+  const [input_itemSelection,setinput_itemSelection] = useState<ItemOption[]>([])
   const [fetchingAccount, setFetchingAccount] = useState(false)
   const [accountInfo, setAccountInfo] = useState<GW2AccountInfo>()
 
@@ -109,10 +109,10 @@ export default function Index() {
     return (!(accountInfo?.AccountName === "" || accountInfo?.AccountName === undefined || accountInfo.AccountName === null || fetchingAccount));
   }
 
-  function FindItem(itemID: string){
+  function FindItem(item: ItemOption){
     let ic_copy = itemCards;
     if(accountInfo !== undefined){
-      ic_copy.unshift({uid:GenerateUID(), account: accountInfo, itemID: itemID , onRemoveClickedCallback: removeCardFromCards});
+      ic_copy.unshift({uid:GenerateUID(), account: accountInfo, itemID: item.value, itemIcon: item.icon, itemName: item.label, onRemoveClickedCallback: removeCardFromCards});
       setItemCards(ic_copy);
       setItemAmount(itemCards.length);
     }
@@ -120,11 +120,11 @@ export default function Index() {
 
   function FindItems(){
     for (let i = 0; i < input_itemSelection.length; i++) {
-      FindItem(input_itemSelection[i]['value']); 
+      FindItem(input_itemSelection[i]); 
     }
   }
 
-  function OnMultiSelectChanged(selectedItems : any){
+  function OnMultiSelectChanged(selectedItems : ItemOption[]){
     setinput_itemSelection(selectedItems);
   }
 
@@ -142,7 +142,7 @@ export default function Index() {
   let loaderData = useLoaderData();
   return (
     <>
-    <div className="bg-primary outline rounded-md outline-2 outline-secondary">
+    <div className="bg-primary outline rounded-md outline-2 outline-secondary shadow-sp">
     <div className="h-auto w-full bg-secondary p-1 pl-4 rounded-t-md text-white text-md"><h2 className="text-md">Account</h2></div>
       <div className='px-4 py-4'>   
         {/* ACCOUNT SECTION */}
@@ -232,7 +232,7 @@ export default function Index() {
     <div className="resultsContainerMobile lg:resultsContainer ">
     { itemCards.map((item)=>
       <div key={item.uid} className="py-2 px-2">
-         <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID}/>
+         <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID} itemIcon={item.itemIcon} itemName={item.itemName}/>
       </div>
     )}
     </div>

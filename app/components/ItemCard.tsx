@@ -14,6 +14,8 @@ export type ItemCard = {
     uid: string;
     account: GW2AccountInfo,
     itemID: string,
+    itemIcon: string,
+    itemName: string
     onRemoveClickedCallback: ((uid :string) => void) | null
 }
 
@@ -29,30 +31,16 @@ const useAPIData = (account: GW2AccountInfo, itemid: string) => {
     const [isError, setIsError] = useState(false)
     const [Error, setError] = useState("")
     const [result, setResult] = useState<GW2AccountSearchResult[]>([])
-    const [searchItem, setSearchItem] = useState<GW2Item>()
 
     useEffect(()=>{
-        setLoading(true);
-
 
         let finder : GW2ItemFinder = new GW2ItemFinder(account,itemid)
+        setResult(finder.SearchOnAccount(itemid).hits);
+        setLoading(false);
 
-        finder.SearchOnAccount(itemid).then(res=>{
-            setLoading(false);
-            setResult(res.hits)
-            setSearchItem(res.searchItem);
-        })
-        .catch(err=>{
-            console.log(err);
-            if(err === "Item ID does not exist!"){
-                setLoading(false);
-                setIsError(true);
-                setError("The item that is being searched does not exist!");
-            }
-        }) 
      },[]);
 
-    return {apiData, isLoading, result, searchItem, isError, Error}
+    return {apiData, isLoading, result, isError, Error}
 }
 
 
@@ -60,7 +48,7 @@ const useAPIData = (account: GW2AccountInfo, itemid: string) => {
 const ItemSearch = (props : ItemCard) => {
 
 
-    const { apiData, isLoading,result, searchItem, isError, Error } = useAPIData(props.account, props.itemID);
+    const { apiData, isLoading,result, isError, Error } = useAPIData(props.account, props.itemID,);
 
     
     let onRemoveClicked = () => {
@@ -70,7 +58,7 @@ const ItemSearch = (props : ItemCard) => {
 
     return isError ? (
         <>
-         <div className="bg-primary border-solid border-red-800 border-4 rounded-md overflow-hidden">
+         <div className="bg-primary border-solid border-red-800 border-4 rounded-md overflow-hidden shadow-sp">
             <div className="grid flex-col">
                 <div className="flex items-center justify-center text-white  pt-3">Oh no! Something went wrong!</div>
                 <div className="flex items-center justify-center text-white  pt-1 pb-3">{Error}</div>
@@ -79,7 +67,7 @@ const ItemSearch = (props : ItemCard) => {
         </>
 
     ) : (
-        <div className="bg-primary outline outline-6 outline-secondary pb-1 rounded-md">
+        <div className="bg-primary outline outline-6 outline-secondary pb-1 rounded-md shadow-sp">
         {isLoading ? (
              <div className="grid flex-col">
                 <div className="flex items-center justify-center text-white px-20 py-16"><PacmanLoader color="white"></PacmanLoader></div>
@@ -88,8 +76,8 @@ const ItemSearch = (props : ItemCard) => {
         ) : (
             <div>
                 <div className="bg-secondary h-8 flex flex-row">
-                    <img src={searchItem?.IconUrl} className="h-full rounded-md "></img>
-                    <div className="flex w-full items-center justify-center text-white text-sm">{searchItem?.Name} [{searchItem?.ItemID}]</div>
+                    <img src={props.itemIcon} className="h-full rounded-md "></img>
+                    <div className="flex w-full items-center justify-center text-white text-sm">{props.itemName} [{props.itemID}]</div>
                     <div className="flex w-7 h-7 my-auto items-center justify-center mr-1">
                     <button className="transition-all hover:transition-all bg-negative h-7 w-7 rounded-2xl hover:rounded-md items-center justify-center text-black p-1" onClick={onRemoveClicked}><XIcon style={{alignSelf:'center'}}></XIcon></button>
 
