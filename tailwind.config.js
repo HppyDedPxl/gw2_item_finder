@@ -10,7 +10,9 @@ module.exports = {
       },
       colors: {
         primary:"#232530",
+        primaryHL: "#3d3f4d",
         secondary:"#3c4b4a",
+        secondaryHL:"#495f5e",
         tertiary:"#aaf46e",
         quaternary:"#211b27",
         link:"#9e9e9e",
@@ -27,6 +29,7 @@ module.exports = {
         'sp' : '4px 4px 4px rgba(0,0,0,0.7)',
         'nav' : '0px 4px 4px rgba(0,0,0,0.7)',
         'footer' : '0px -4px 4px rgba(0,0,0,0.7)',
+        'r' : '4px 0px 4px rgba(0,0,0,0.7)',
 
       }
     }

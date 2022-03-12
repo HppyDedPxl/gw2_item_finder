@@ -1,6 +1,6 @@
 import { QuestionMarkCircleIcon, RefreshIcon, SearchIcon, XIcon } from '@heroicons/react/outline'
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import  SearchResult, { ItemCard } from '~/components/ItemCard';
 import { useLoaderData } from 'remix';
 import { LoaderFunction, createCookie } from 'remix';
@@ -30,11 +30,17 @@ function GenerateUID() : string {
  return Math.random().toString(36).substr(2, 32);
 }
 
-export const loader: LoaderFunction = async ({params})=>{
+export interface SearchPageState{
+  bShouldFetchOnLoad: boolean;
+  ItemsToFetch: ItemOption[];
+}
+
+export const loader: LoaderFunction = async ({request})=>{
   // load in all of the items
   let itemDB : GW2OfflineItemCache = new GW2OfflineItemCache();
   itemDB.Load();
-  return {ItemDB: itemDB};
+  const uri = new URLSearchParams(request.url);
+  return {ItemDB: itemDB, idList:uri.get('items')};
 }
 
 export default function Index() {
@@ -46,6 +52,8 @@ export default function Index() {
   const [input_itemSelection,setinput_itemSelection] = useState<ItemOption[]>([])
   const [fetchingAccount, setFetchingAccount] = useState(false)
   const [accountInfo, setAccountInfo] = useState<GW2AccountInfo>()
+  const [shouldPrefetchItems, setShouldPrefetchItems] = useState(false)
+  const [itemsToPrefetch, setItemsToPrefetch] = useState<ItemOption[]>([])
 
 
   function removeCardFromCards(uid : string){
@@ -62,7 +70,6 @@ export default function Index() {
     setItemAmount(itemCards.length);
 
   }
-
 
   function SetApiKey(){
     let newAccount : GW2AccountInfo = new GW2AccountInfo();  
@@ -118,9 +125,14 @@ export default function Index() {
     }
   }
 
+ 
   function FindItems(){
-    for (let i = 0; i < input_itemSelection.length; i++) {
-      FindItem(input_itemSelection[i]); 
+    FindItemsParams(input_itemSelection)
+  }
+
+  function FindItemsParams(items: ItemOption[]){
+    for (let i = 0; i < items.length; i++) {
+      FindItem(items[i]); 
     }
   }
 
@@ -128,6 +140,7 @@ export default function Index() {
     setinput_itemSelection(selectedItems);
   }
 
+  let state : SearchPageState = useLocation().state as SearchPageState;
   // Get Account from cache
   useEffect(()=>{
     let data = null;
@@ -136,10 +149,24 @@ export default function Index() {
       let account: GW2AccountInfo  = DeserializeGW2AccountInfo(data);
       // reassign prototype properties
       setAccountInfo(account);
+      console.log(state);
+      if(state !== null && state.bShouldFetchOnLoad && account !== undefined && account !== null){
+        setShouldPrefetchItems(true);
+        setItemsToPrefetch(state.ItemsToFetch);
+      }
     }
+    
   },[]);
 
   let loaderData = useLoaderData();
+  if(shouldPrefetchItems){
+    FindItemsParams(itemsToPrefetch);
+    setShouldPrefetchItems(false);
+    setItemsToPrefetch([]);
+     window.history.replaceState({},document.title);
+  }
+
+  // reset state to prevent infinite render loop
   return (
     <>
     <div className="bg-primary outline rounded-md outline-2 outline-secondary shadow-sp">

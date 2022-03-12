@@ -1,4 +1,5 @@
 import { CodeIcon, MailIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import { SocialIcon } from "react-social-icons"
 export default function About(){
     return(
@@ -43,7 +44,6 @@ export default function About(){
                 <div className="flex flex-row w-full pt-1">    
                 <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-info  text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://status.gw2efficiency.com/','_blank')}}>Check the API Status!</button>
                 <button className="transition-all hover:transition-all duration-300 ease-in-out h-6 w-full bg-negative  text-black hover:text-gray rounded-3xl hover:rounded-md mx-1" onClick={(e)=>{e.preventDefault(); window.open('https://github.com/HppyDedPxl/gw2_item_finder/issues','_blank')}}>Create a bug report!</button>
-                
                 </div>
             </div>
         </div>
