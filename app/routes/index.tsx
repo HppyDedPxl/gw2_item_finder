@@ -132,7 +132,7 @@ export default function Index() {
   }
 
   function FindItemsParams(items: ItemOption[]){
-    GenerateGatheringToolFromOptions(items);
+    //GenerateGatheringToolFromOptions(items);
     for (let i = 0; i < items.length; i++) {
       FindItem(items[i]); 
     }
