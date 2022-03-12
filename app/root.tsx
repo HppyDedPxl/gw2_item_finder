@@ -43,6 +43,9 @@ function Document({children}) : JSX.Element {
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+      <link rel="preconnect" href="https://fonts.gstatic.com"></link>
+      <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet"></link>
       <Meta />
       <Links />
     </head>
@@ -108,7 +111,7 @@ function Layout({children}) : JSX.Element {
                     src="logo.png"
                     alt="Workflow"
                   />
-                  <div className="fancyHeader text-white pl-2 font-mono">Find My Skritt!</div>
+                  <div className="fancyHeader text-white pl-2 titleFont text-xl">Find My Skritt!</div>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

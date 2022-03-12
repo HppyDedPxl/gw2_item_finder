@@ -1045,6 +1045,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-medium {
   font-weight: 500;
 }
@@ -1182,6 +1192,10 @@ sup {
   background-color: #fff;
   border-radius: 50%;
   display: inline-block;
+}
+
+.titleFont {
+  font-family: 'Dancing Script', cursive;
 }
 
 .hover\:rounded-md:hover {
