@@ -648,12 +648,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 1.5rem;
 }
 
-.h-8 {
-  height: 2rem;
-}
-
 .h-12 {
   height: 3rem;
+}
+
+.h-8 {
+  height: 2rem;
 }
 
 .h-7 {
@@ -674,10 +674,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-5 {
   height: 1.25rem;
-}
-
-.h-14 {
-  height: 3.5rem;
 }
 
 .w-full {
@@ -1024,6 +1020,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.75rem;
 }
 
+.pr-8 {
+  padding-right: 2rem;
+}
+
 .pl-2 {
   padding-left: 0.5rem;
 }
@@ -1072,8 +1072,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 1.5rem;
 }
 
-.pr-8 {
-  padding-right: 2rem;
+.pl-10 {
+  padding-left: 2.5rem;
+}
+
+.pb-0 {
+  padding-bottom: 0px;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
 }
 
 .text-center {
@@ -1108,12 +1116,21 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .font-medium {
   font-weight: 500;
 }
 
 .font-bold {
   font-weight: 700;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .text-black {
@@ -1349,10 +1366,6 @@ sup {
     margin-left: 1.5rem;
   }
 
-  .sm\:block {
-    display: block;
-  }
-
   .sm\:flex {
     display: flex;
   }
@@ -1367,10 +1380,6 @@ sup {
 
   .sm\:h-9 {
     height: 2.25rem;
-  }
-
-  .sm\:items-center {
-    align-items: center;
   }
 
   .sm\:items-stretch {

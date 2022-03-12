@@ -47,6 +47,32 @@ export function ResolveBuffToStat(buff: string) : string {
     return buff;
 }
 
+export function GenerateGatheringToolFromOptions(options: ItemOption[]){
+    let items : GW2Item[] = [];
+    let promises = [];
+    for (let i = 0; i < options.length; i++) {
+        let newItem = new GW2Item();
+        newItem.ItemID = parseInt(options[i].value);
+        promises.push(newItem.populateFromAPI());        
+    }
+
+    
+    Promise.all(promises).then(res=>{
+        let obj : ItemGroup= {
+            Name: res[0].Name,
+            Icon: res[0].IconUrl,
+            Items: []
+        }
+        for (let i = 0; i < res.length; i++) {
+            const element = res[i];
+            let nameStr = element.Name;
+            obj.Items.push({Name: nameStr, ItemID:element.ItemID,Icon:element.IconUrl});
+            
+        }
+        console.log(obj);
+    });
+}
+
 export function GenerateInfusionStringFromOptions(options: ItemOption[]){
 
     let items : GW2Item[] = [];
