@@ -1,3 +1,5 @@
+import { ItemOption } from "~/components/ItemSelect";
+import { ItemGroup } from "~/routes/ItemLists";
 import { GW2AccountInfo} from "./GW2AccountInfo";
 import { CharacterEqTemplateResult, EqTemplateListResult, GW2API_Call } from "./GW2API_Call";
 import { GW2Character } from "./GW2Character";
@@ -33,4 +35,44 @@ export class GW2ItemFinder {
         search = {hits: this.account.FindItemInAccount(parseInt(itemId))};
         return search;
     }
+
+    
+}
+
+export function ResolveBuffToStat(buff: string) : string {
+    if(buff === "BoonDuration")
+        return "Concentration"
+    else if(buff==="ConditionDuration")
+        return "Expertise";
+    return buff;
+}
+
+export function GenerateInfusionStringFromOptions(options: ItemOption[]){
+
+    let items : GW2Item[] = [];
+    let promises = [];
+    for (let i = 0; i < options.length; i++) {
+        let newItem = new GW2Item();
+        newItem.ItemID = parseInt(options[i].value);
+        promises.push(newItem.populateFromAPI());        
+    }
+
+    
+    Promise.all(promises).then(res=>{
+        let obj : ItemGroup= {
+            Name: res[0].Name,
+            Icon: res[0].IconUrl,
+            Items: []
+        }
+        for (let i = 0; i < res.length; i++) {
+            const element = res[i];
+            let nameStr = element.Name;
+            nameStr += " (" + ResolveBuffToStat(element.Details.infix_upgrade.attributes[0].attribute) + ")"
+
+            obj.Items.push({Name: nameStr, ItemID:element.ItemID,Icon:element.IconUrl});
+            
+        }
+        console.log(obj);
+        // REGEX TO CONVERT THIS OBJECT JSON TO USABLE ARRAY ITEMLISTS.TSX : / \s+(?=")\"(?=Name|Icon|Items|ItemID)|\"(?=\:)|\s(?<=,)|\s+(?=}) /gm
+    });
 }

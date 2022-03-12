@@ -11,6 +11,7 @@ import Async, { useAsync } from 'react-select/async';
 import AsyncSelect from 'react-select/async';
 import ItemSelect, { ItemOption } from '~/components/ItemSelect';
 import Howto from './howto';
+import { GenerateInfusionStringFromOptions, GW2ItemFinder } from '~/GW2Api/GW2ItemFindProcess';
 
 function ConvertTimespanToTimeString(span: number) {
   span = span/1000;
@@ -131,6 +132,7 @@ export default function Index() {
   }
 
   function FindItemsParams(items: ItemOption[]){
+    GenerateInfusionStringFromOptions(items);
     for (let i = 0; i < items.length; i++) {
       FindItem(items[i]); 
     }

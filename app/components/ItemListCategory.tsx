@@ -19,7 +19,7 @@ const ItemListCategory = (props : ItemListCategoryProps)  => {
         setExpanded(!bExpanded);
     }
     return (<>
-    <div className="shadow-sp border-x-2 border-y-0 border border-tertiary rounded-t-md m-1">
+    <div className="shadow-sp border-x-2 border-y-0 border border-tertiary rounded-t-md m-1 my-4">
     <div className="flex flex-row">
         <button className={"flex h-6 w-full bg-secondary items-center content-center hover:bg-secondaryHL transition-all hover:transition-all rounded-t-md"} onClick={OnExpandClicked}> 
             {bExpanded ? (<ChevronDownIcon className="h-full py-1 pl-2"></ChevronDownIcon>) : (<ChevronRightIcon className="h-full py-1 pl-2"></ChevronRightIcon>) }  

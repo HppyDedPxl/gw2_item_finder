@@ -35,6 +35,7 @@ export type ItemDataResult = {
     Name: string;
     IconUrl: string;
     Type: string;
+    Details: any;
 }
 
 export type AccountResult = {
@@ -153,7 +154,7 @@ export class GW2API_Call {
                     error("Item ID does not exist!");
                     return;
                 }
-                const result : ItemDataResult = {ID : itemId, Name : jsonRes.name, IconUrl : jsonRes.icon, Type: jsonRes.type};
+                const result : ItemDataResult = {ID : itemId, Name : jsonRes.name, IconUrl : jsonRes.icon, Type: jsonRes.type, Details: jsonRes.details};
                 resolve(result);
             }).catch(err=>{
                 error(err)});

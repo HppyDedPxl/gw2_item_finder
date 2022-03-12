@@ -14,6 +14,8 @@ export class GW2Item {
     Stats: object;
     Binding: string;
     Dyes: number[];
+    // todo : Properly type
+    Details: any;
 
 
     constructor(){
@@ -66,6 +68,8 @@ export class GW2Item {
             return call.GetItemData(this.ItemID).then(result=>{
                 this.Name = result.Name;
                 this.IconUrl = result.IconUrl;
+                this.Details = result.Details;
+                console.log("Resolved")
                 resolve(this);
             })
             .catch(err=>{
