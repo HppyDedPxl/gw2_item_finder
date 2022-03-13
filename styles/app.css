@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .mainBody{
-    background-image: url("/bg-concept-2.jpg");
+    background-image: url("/gw001.jpg");
     background-color:aquamarine;
     background-size: cover;
     background-repeat: no-repeat;
@@ -67,4 +67,8 @@ sup {
 
 .titleFont {
     font-family: 'Dancing Script', cursive;
+}
+
+.changelog-list{
+    list-style-type: circle;
 }

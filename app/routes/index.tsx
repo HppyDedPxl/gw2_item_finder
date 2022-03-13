@@ -49,6 +49,21 @@ export default function Index() {
   const [shouldPrefetchItems, setShouldPrefetchItems] = useState(false)
   const [itemsToPrefetch, setItemsToPrefetch] = useState<ItemOption[]>([])
 
+  function removeAllEmptyCards(){
+    let ic_copy = itemCards;
+    // find element at index
+    for (let i = 0; i < ic_copy.length; i++) {
+      const element = ic_copy[i];
+      if (element.results === 0){
+          ic_copy.splice(i,1);
+          i--;
+      }
+    }
+
+    setItemCards(ic_copy);
+    setItemAmount(itemCards.length);
+  }
+
 
   function removeCardFromCards(uid : string){
     let ic_copy = itemCards;
@@ -112,13 +127,19 @@ export default function Index() {
   function FindItem(item: ItemOption){
     let ic_copy = itemCards;
     if(accountInfo !== undefined){
-      ic_copy.unshift({uid:GenerateUID(), account: accountInfo, itemID: item.value, itemIcon: item.icon, itemName: item.label, onRemoveClickedCallback: removeCardFromCards});
+      let itemSearchCard = new ItemCard();
+      itemSearchCard.uid = GenerateUID();
+      itemSearchCard.account = accountInfo;
+      itemSearchCard.itemID = item.value;
+      itemSearchCard.itemIcon = item.icon;
+      itemSearchCard.itemName = item.label;
+      itemSearchCard.onRemoveClickedCallback = removeCardFromCards;
+      ic_copy.unshift(itemSearchCard);
       setItemCards(ic_copy);
       setItemAmount(itemCards.length);
     }
   }
 
- 
   function FindItems(){
     FindItemsParams(input_itemSelection)
   }
@@ -232,6 +253,9 @@ export default function Index() {
           <div className="px-1"></div>
           <button name="confirm-button" id="confirm-button" className="flex transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-positive h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
           </div>
+          <div className="pt-2">
+            <button name="remove-emtpy-button" id="remove-empty-button" className='flex w-full transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-negative h-auto content-center items-center align-center' onClick={removeAllEmptyCards}><div className='flex m-auto align-center'>Purge</div></button>
+          </div>
         </>
         )
         :
@@ -254,7 +278,7 @@ export default function Index() {
     <div className="resultsContainerMobile lg:resultsContainer ">
     { itemCards.map((item)=>
       <div key={item.uid} className="py-2 px-2">
-         <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID} itemIcon={item.itemIcon} itemName={item.itemName}/>
+         <SearchResult  onRemoveClickedCallback={removeCardFromCards} uid={item.uid} account={item.account} itemID={item.itemID} itemIcon={item.itemIcon} itemName={item.itemName} onNewResultLength={item.onNewResultLength}/>
       </div>
     )}
     </div>

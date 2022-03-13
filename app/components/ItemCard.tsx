@@ -10,13 +10,38 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 import { XIcon } from "@heroicons/react/outline";
 
 
-export type ItemCard = {
+export class ItemCard {
+    uid: string;
+    account: GW2AccountInfo;
+    itemID: string;
+    itemIcon: string;
+    itemName: string;
+    results : number;
+    onRemoveClickedCallback: ((uid :string) => void) | null;
+    onNewResultLength:((newLength:number) => void);
+
+    constructor(){
+        this.uid = "";
+        this.account = new GW2AccountInfo();
+        this.itemID = "";
+        this.itemIcon = "";
+        this.itemName = "";
+        this.results = 0;
+        this.onRemoveClickedCallback = null;
+        this.onNewResultLength = (n:number) => {
+            this.results = n;
+        }
+    }
+}
+
+export type ItemCardProps = {
     uid: string;
     account: GW2AccountInfo,
     itemID: string,
     itemIcon: string,
-    itemName: string
+    itemName: string,
     onRemoveClickedCallback: ((uid :string) => void) | null
+    onNewResultLength:((newLength:number) => void);
 }
 
 export type SearchItemProps = {
@@ -45,16 +70,18 @@ const useAPIData = (account: GW2AccountInfo, itemid: string) => {
 
 
 
-const ItemSearch = (props : ItemCard) => {
+const ItemSearch = (props : ItemCardProps) => {
 
+    
 
     const { apiData, isLoading,result, isError, Error } = useAPIData(props.account, props.itemID,);
-
     
     let onRemoveClicked = () => {
         if(props.onRemoveClickedCallback !== null)
             props?.onRemoveClickedCallback(props.uid)
     }
+
+    props.onNewResultLength(result.length);
 
     return isError ? (
         <>

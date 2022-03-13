@@ -22,7 +22,7 @@ export default function About(){
                 </div>
                 <div className="flex flex-row h-5 w-full pt-1">
                     <MailIcon className="flex pr-1" color="white" fontSize={2}></MailIcon>
-                    <p className="flex">alexander@konrads.io</p>
+                    <p className="flex">alexander@thelazydev.net</p>
                 </div>
                 </div>
                 </div>

@@ -7,9 +7,12 @@ import ItemListItemEntry from "./ItemListItemEntry";
 
 interface ItemListCategoryProps{
     category : ItemCategory;
+    onClickSearchCategory: (category: ItemCategory) => void
     onClickSearchAll: (group : ItemGroup) => void;
     onClickIndividual: (item : ItemGroupEntry, group : ItemGroup ) => void;
 }
+
+
 
 const ItemListCategory = (props : ItemListCategoryProps)  => {
 
@@ -18,6 +21,11 @@ const ItemListCategory = (props : ItemListCategoryProps)  => {
     function OnExpandClicked(){
         setExpanded(!bExpanded);
     }
+
+    function clickSearchAllCallback(){
+        props.onClickSearchCategory(props.category);
+    }
+
     return (<>
     <div className="shadow-sp border-x-2 border-y-0 border border-tertiary rounded-t-md m-1 my-4">
     <div className="flex flex-row">
@@ -31,6 +39,7 @@ const ItemListCategory = (props : ItemListCategoryProps)  => {
         {bExpanded ? 
         (
             <>
+            <button className="flex h-8 w-full bg-secondary items-center content-center hover:bg-secondaryHL transition-all hover:transition-all" onClick={clickSearchAllCallback}><div className="w-full text-center text-xs font-bold text-white">Search All</div></button>
             <div className="">
                 {props.category.Groups.map(group=>
                     <ItemListGroup key={group.Name} onClickIndividual={props.onClickIndividual} onClickSearchAll={props.onClickSearchAll} itemGroup={group} ></ItemListGroup>

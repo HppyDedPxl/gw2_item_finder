@@ -25,7 +25,7 @@ export function links(){
 }
 
 export const meta: MetaFunction = () => {
-  return { title: "Guild Wars 2 Item Finder" };
+  return { title: "Find My Skritt!" };
 };
 
 export interface GlobalAppData{
@@ -73,6 +73,18 @@ function Document({children}) : JSX.Element {
       <link rel="preconnect" href="https://fonts.googleapis.com"></link>
       <link rel="preconnect" href="https://fonts.gstatic.com"></link>
       <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet"></link>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L56MX11YFR"></script>
+      <script dangerouslySetInnerHTML={{
+        __html:`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-L56MX11YFR');
+        `
+      }}>
+        
+      </script>
       <Meta />
       <Links />
     </head>
@@ -94,7 +106,8 @@ function Document({children}) : JSX.Element {
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'How To', href: '/howto', current: false},
-  { name: 'Quick Search', href: '/ItemLists', current: false}
+  { name: 'Quick Search', href: '/ItemLists', current: false},
+  { name:'Changelog', href:"/changelog", current: false}
 ]
 
 function classNames(...classes) {

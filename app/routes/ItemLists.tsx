@@ -33,30 +33,36 @@ function EntryToItemOption(parentGroup : ItemGroup, item : ItemGroupEntry) : Ite
 }
 
 
-
-
-
 export default function ItemLists() {
 
   let navigate = useNavigate();
 
+
+  function OnSearchAllFromCategory(category: ItemCategory){
+    let items : ItemOption[] = [];
+    for (let i = 0; i < category.Groups.length; i++) {
+      const group = category.Groups[i];
+      for (let j = 0; j < group.Items.length; j++) {
+        const item = group.Items[j];
+        items.push({icon: item.Icon !== null ? item.Icon : group.Icon,value:item.ItemID.toString(),label:item.Name});  
+      }    
+    }
+    navigate("/",{ replace: true,state: {bShouldFetchOnLoad: true, ItemsToFetch: items}});
+  }
+
   function OnSearchAllFromGroup(group : ItemGroup){
     let items : ItemOption[] = [];
     for (let i = 0; i < group.Items.length; i++) {
-      const element = group.Items[i];
-      items.push({icon:group.Icon,value:element.ItemID.toString(),label:element.Name});  
+      const item = group.Items[i];
+      items.push({icon: item.Icon !== null ? item.Icon : group.Icon,value:item.ItemID.toString(),label:item.Name});  
     }
-   
-    // let navigate = useNavigate();
     navigate("/",{ replace: true,state: {bShouldFetchOnLoad: true, ItemsToFetch: items}});
-  
   
   }
   
   function OnSearchIndividual(item: ItemGroupEntry, parentGroup: ItemGroup){
     let items : ItemOption[] = [];
-    items.push({value:item.ItemID.toString(),label:item.Name,icon:parentGroup.Icon});
-    //let navigate = useNavigate();
+    items.push({value:item.ItemID.toString(),label:item.Name,icon: item.Icon !== null ? item.Icon : parentGroup.Icon});
     navigate("/",{ replace: true,state: {bShouldFetchOnLoad: true, ItemsToFetch: items}});
   }
 
@@ -70,11 +76,11 @@ export default function ItemLists() {
           <p className="font-bold pl-4 pb-2">Before using this section please set your account on the home page!</p>
           <p className="text-lg font-bold pt-2">Infusions</p>
           {IL_Infusions.map(Category=>
-            <ItemListCategory key={Category.Name} category={Category} onClickIndividual={OnSearchIndividual} onClickSearchAll={OnSearchAllFromGroup}></ItemListCategory>
+            <ItemListCategory key={Category.Name} category={Category} onClickIndividual={OnSearchIndividual} onClickSearchAll={OnSearchAllFromGroup} onClickSearchCategory={OnSearchAllFromCategory}></ItemListCategory>
           )}
           <p className="text-lg font-bold pt-2">Infinite Gathering Tools</p>
           {IL_GatheringTools.map(Category=>
-            <ItemListCategory key={Category.Name} category={Category} onClickIndividual={OnSearchIndividual} onClickSearchAll={OnSearchAllFromGroup}></ItemListCategory>
+            <ItemListCategory key={Category.Name} category={Category} onClickIndividual={OnSearchIndividual} onClickSearchAll={OnSearchAllFromGroup} onClickSearchCategory={OnSearchAllFromCategory}></ItemListCategory>
           )}
           
           </div>

@@ -40,7 +40,7 @@ const ItemListGroup = (props : ItemListGroupProps)  => {
         (
             <>
             <div className="flex flex-col w-full outline outline-primary outline-1">
-                <button className="flex h-4 m-2 mx-auto px-3 rounded-2xl bg-tertiary items-center content-center hover:rounded-md hover:text-primaryHL transition-all hover:transition-all" onClick={clickSearchAllCallback}><div className="w-full text-center text-xs font-bold text-primary">Search All</div></button>
+                <button className="flex h-full h-8 w-full bg-secondary items-center content-center hover:bg-secondaryHL transition-all hover:transition-all" onClick={clickSearchAllCallback}><div className="w-full text-center text-xs font-bold text-white">Search All</div></button>
             
                 {props.itemGroup.Items.map(i=>
                     <ItemListItemEntry key={i.Name} item={i} parentGroup={props.itemGroup} onClick={props.onClickIndividual} ></ItemListItemEntry>
