@@ -1060,6 +1060,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-left: 0.25rem;
 }
 
+.pl-10 {
+  padding-left: 2.5rem;
+}
+
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1070,14 +1074,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pt-6 {
   padding-top: 1.5rem;
-}
-
-.pl-10 {
-  padding-left: 2.5rem;
-}
-
-.pb-0 {
-  padding-bottom: 0px;
 }
 
 .pb-2 {

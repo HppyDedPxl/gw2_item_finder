@@ -7,11 +7,13 @@ import {
   Scripts,
   ScrollRestoration,
 } from "remix";
+
+import { createContext, useContext } from "react";
+
 import styles from "./styles/app.css"
 
 import type { MetaFunction } from "remix";
 import React from "react";
-
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
@@ -26,15 +28,40 @@ export const meta: MetaFunction = () => {
   return { title: "Guild Wars 2 Item Finder" };
 };
 
-export default function App() {
+export interface GlobalAppData{
+  ItemDB: GW2OfflineItemCache;
+}
 
+export default function App() {
+  let itemDB : GW2OfflineItemCache = new GW2OfflineItemCache();
+  itemDB.Load();
+  const globalAppData : GlobalAppData = {ItemDB:itemDB};
   return (
     <Document>
       <Layout>
-       <Outlet/>
+       <ParametrizedOutlet data={globalAppData}/>
       </Layout>
     </Document>
   );
+}
+
+
+let context = createContext<unknown>(null);
+
+export function useParentData<ParentData>(){
+
+  let parentData = useContext(context) as ParentData | null;
+
+  return parentData;
+}
+
+type ParametrizedOutletProps<T> = {data? : T};
+function ParametrizedOutlet<T = unknown>({data}: ParametrizedOutletProps<T>){
+  return(
+    <context.Provider value={data}>
+      <Outlet/>
+    </context.Provider>
+  )
 }
 
 function Document({children}) : JSX.Element {
@@ -77,8 +104,6 @@ function classNames(...classes) {
 let activeStyle = ' text-black bg-topnavactive ';
 let inactiveStyle = 'text-gray-300 bg-topnavbutton hover:bg-topnavhover hover:text-white ';
 let generalStyle = 'px-3 py-2 rounded-md text-sm font-medium  ';
-
-
 
 
 function Layout({children}) : JSX.Element {

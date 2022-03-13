@@ -12,6 +12,7 @@ import AsyncSelect from 'react-select/async';
 import ItemSelect, { ItemOption } from '~/components/ItemSelect';
 import Howto from './howto';
 import { GenerateGatheringToolFromOptions, GenerateInfusionStringFromOptions, GW2ItemFinder } from '~/GW2Api/GW2ItemFindProcess';
+import { GlobalAppData, useParentData } from '~/root';
 
 function ConvertTimespanToTimeString(span: number) {
   span = span/1000;
@@ -34,14 +35,6 @@ function GenerateUID() : string {
 export interface SearchPageState{
   bShouldFetchOnLoad: boolean;
   ItemsToFetch: ItemOption[];
-}
-
-export const loader: LoaderFunction = async ({request})=>{
-  // load in all of the items
-  let itemDB : GW2OfflineItemCache = new GW2OfflineItemCache();
-  itemDB.Load();
-  const uri = new URLSearchParams(request.url);
-  return {ItemDB: itemDB, idList:uri.get('items')};
 }
 
 export default function Index() {
@@ -79,8 +72,7 @@ export default function Index() {
     .then(res=>{
         setAccountInfo(res);
         localStorage.setItem("gw2AccountInfo",JSON.stringify(res));
-        setFetchingAccount(false);
-      
+        setFetchingAccount(false);   
     })
     .catch(err=>{
       console.log(err);
@@ -151,7 +143,7 @@ export default function Index() {
       let account: GW2AccountInfo  = DeserializeGW2AccountInfo(data);
       // reassign prototype properties
       setAccountInfo(account);
-      console.log(state);
+
       if(state !== null && state.bShouldFetchOnLoad && account !== undefined && account !== null){
         setShouldPrefetchItems(true);
         setItemsToPrefetch(state.ItemsToFetch);
@@ -160,12 +152,13 @@ export default function Index() {
     
   },[]);
 
-  let loaderData = useLoaderData();
+  let globalAppData : GlobalAppData = useParentData() as GlobalAppData;
+  
   if(shouldPrefetchItems){
     FindItemsParams(itemsToPrefetch);
     setShouldPrefetchItems(false);
     setItemsToPrefetch([]);
-     window.history.replaceState({},document.title);
+    window.history.replaceState({},document.title);
   }
 
   // reset state to prevent infinite render loop
@@ -235,7 +228,7 @@ export default function Index() {
           </div>
           <div className="pt-1"></div>
           <div className='flex flex-row lace-items-center justify-items-auto'>
-          <ItemSelect ItemCache={loaderData.ItemDB} onChange={OnMultiSelectChanged}></ItemSelect>
+          <ItemSelect ItemCache={globalAppData.ItemDB} onChange={OnMultiSelectChanged}></ItemSelect>
           <div className="px-1"></div>
           <button name="confirm-button" id="confirm-button" className="flex transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-positive h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
           </div>
