@@ -14,6 +14,7 @@ export class GW2Item {
     Stats: object;
     Binding: string;
     Dyes: number[];
+    Count:number;
     // todo : Properly type
     Details: any;
 
@@ -29,6 +30,7 @@ export class GW2Item {
         this.Stats = {};
         this.Binding = "";
         this.Dyes = [];
+        this.Count = 0;
     }
 
     static fromJSON(itemData: GW2JsonItemWrapper){
@@ -41,6 +43,7 @@ export class GW2Item {
         item.Stats = itemData.stats;   
         item.Binding = itemData.binding;
         item.Dyes = itemData.dyes;
+        item.Count = itemData.count;
 
         return item;
     }

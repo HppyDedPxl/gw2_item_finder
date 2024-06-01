@@ -72,3 +72,15 @@ sup {
 .changelog-list{
     list-style-type: circle;
 }
+
+
+.expand-button{
+    margin: auto;
+      width: auto;
+      padding: 5px;
+      margin-top: 20px;
+      border-radius: 0.25rem;
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+  

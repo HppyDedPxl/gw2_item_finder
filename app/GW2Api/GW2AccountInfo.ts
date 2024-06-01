@@ -18,6 +18,7 @@ export class GW2AccountInfo{
     Characters: GW2Character[];
     SharedInventory: (GW2Item|null)[];
     BankInventory: (GW2Item|null)[];
+    MaterialStorage: (GW2Item|null)[];
     ApiKey: string;
     LastUpdate: number;
 
@@ -29,6 +30,7 @@ export class GW2AccountInfo{
         this.ApiKey = "";
         this.LastUpdate = 0;
         this.BankInventory = []
+        this.MaterialStorage = []
     }
 
     populateFromApiKey(apiKey: string) : Promise<GW2AccountInfo> {
@@ -53,8 +55,7 @@ export class GW2AccountInfo{
                     error(err);
                 }));
 
-                // TODO: GET BANK (game) DATA!
-                // 2.2 Get Shared Inventory Data
+                // 2.2 Get Bank Inventory Data
                 parallelRequests.push(new GW2API_Call(apiKey).GetBankData().then((res)=>{
                     this.BankInventory = [];
                     for (let i = 0; i < res.Items.length; i++) {
@@ -90,6 +91,16 @@ export class GW2AccountInfo{
                     })
 
                 }).catch(err=>{
+                    error(err);
+                }));
+
+                parallelRequests.push(new GW2API_Call(apiKey).GetMaterialStorageData().then(res=>{
+                    this.MaterialStorage = [];
+                    for (let i = 0; i < res.Items.length; i++) {
+                        this.MaterialStorage.push(res.Items[i] !== null ? GW2Item.fromJSON(res.Items[i]) : null);                      
+                    }
+                })
+                .catch(err=>{
                     error(err);
                 }));
 
@@ -174,7 +185,7 @@ export class GW2AccountInfo{
             if(this.SharedInventory[i] !== null){
                 if(this.SharedInventory[i]?.ItemID === searchId || this.SharedInventory[i]?.hasItemIdAsUpgradeOrInfusion(searchId)){
                     // check item itsel
-                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Shared Account Inventory", Slot: String(i+1), Location:"Shared Inventory"});
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Shared Account Inventory", Slot: String(i+1), Location:"Shared Inventory",Count: this.SharedInventory[i].Count});
                 }
             }   
         }
@@ -182,52 +193,66 @@ export class GW2AccountInfo{
         // 2. Check Bank
         for (let i = 0; i < this.BankInventory.length; i++) {
             if(this.BankInventory[i] !== null){
+                console.log(this.BankInventory[i]);
+                
                 if(this.BankInventory[i]?.ItemID === searchId || this.BankInventory[i]?.hasItemIdAsUpgradeOrInfusion(searchId)){
                     let bankTab : number = Math.floor(i / 30);
                     let slot = i - (bankTab * 30);
 
-                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Tab: "+(bankTab+1) +" Slot:" + (slot+1), Location:"Account Bank"});
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Account Bank", Slot: "Tab: "+(bankTab+1) +" Slot:" + (slot+1), Location:"Account Bank",Count:this.BankInventory[i].Count});
 
                 }
             }   
         }
 
-        // 3. Iterate over all characters
+         // 2. Check Material Storage
+         console.log(this.MaterialStorage)
+         for (let i = 0; i < this.MaterialStorage.length; i++) {
+            if(this.MaterialStorage[i] !== null){
+                console.log(this.MaterialStorage[i]);
+                if(this.MaterialStorage[i]?.ItemID === searchId || this.MaterialStorage[i]?.hasItemIdAsUpgradeOrInfusion(searchId)){
+                    hits.push({uuid: GenerateUID(),Character: null,EquipmentTabNr: 0, EquipmentTabName:"Material Storage", Slot: "-", Location:"Material Storage",Count:this.MaterialStorage[i].Count});
+
+                }
+            }   
+        }
+
+        // 4. Iterate over all characters
         this.Characters.forEach(character => {
-            // 4. Check "gathering slots"
-            let slotsToCheck : string[] = ["Sickle", "Axe", "Pick"];
+            // 5. Check "gathering slots"
+            let slotsToCheck : string[] = ["Sickle", "Axe", "Pick","FishingRod","FishingBait","FishingLure","PowerCore","SensoryArray","ServiceChip","Relic"];
             for (let i = 0; i < slotsToCheck.length; i++) {
                 let element : GW2Item | null = character.GetDefaultEquipmentSlot(slotsToCheck[i]);
                 if(element !== null && element.ItemID === searchId) {
-                    hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Default Equipment", Slot: slotsToCheck[i], Location:"Equipment"});
+                    hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Default Equipment", Slot: slotsToCheck[i], Location:"Equipment",Count:1});
                 }
             }
 
-            // 5. Check Inventory
+            // 6. Check Inventory
             for (let i = 0; i < character.Bags.length; i++) {
                 const bag = character.Bags[i];
                 if(bag == null) continue;
                 for (let j = 0; j < bag.Inventory.length; j++) {
                     const item = bag.Inventory[j];
                     if(item !== null && item.ItemID === searchId || item?.hasItemIdAsUpgradeOrInfusion(searchId)){
-                        hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Inventory", Slot: "Bag: " + (i+1) +" Slot: " + (j+1), Location:"Inventory"});
+                        hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: 0, EquipmentTabName:"Inventory", Slot: "Bag: " + (i+1) +" Slot: " + (j+1), Location:"Inventory",Count:item.Count});
                     }
                     
                 }            
             }
 
-            // 6. Check all Equipment Tabs
+            // 7. Check all Equipment Tabs
             character.EquipmentTabs.forEach(equipmentTab => {
                 equipmentTab.equipment.forEach(item => {                
                     // check if the item in question is the item we are looking for
                     if(item.id === searchId)
-                        hits.push({uuid: GenerateUID(), Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab"});
+                        hits.push({uuid: GenerateUID(), Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab",Count:1});
 
                     // check if the item is one of the infusions
                     if(item.infusions !== undefined){
                         item.infusions.forEach(infusion => {
                             if(infusion === searchId){
-                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab"});
+                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab",Count:1});
                             }
                         });
                     }
@@ -236,7 +261,7 @@ export class GW2AccountInfo{
                     if(item.upgrades !== undefined){
                         item.upgrades.forEach(upgrade => {
                             if(upgrade === searchId){
-                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab"});
+                                hits.push({uuid: GenerateUID(),Character: character,EquipmentTabNr: equipmentTab.id, EquipmentTabName: equipmentTab.name, Slot: item.slot,Location:"Equipment Tab",Count:1});
                             }
                         });
                     }
@@ -274,7 +299,15 @@ export function DeserializeGW2AccountInfo(data: string) : GW2AccountInfo {
         } 
     }
 
-    // 4. iterate over all "character" entries and reassign prototype
+    // 4. reassing prototypes to material storage
+    for (let i = 0; i < dataObj.MaterialStorage.length; i++) {
+        if(dataObj.MaterialStorage[i] !== null)
+        {
+            dataObj.MaterialStorage[i] = Object.assign(new GW2Item(),dataObj.MaterialStorage[i]);
+        } 
+    }
+
+    // 5. iterate over all "character" entries and reassign prototype
     for (let i = 0; i < dataObj.Characters.length; i++) {
         dataObj.Characters[i] = Object.assign(new GW2Character(),dataObj.Characters[i]);
         // 3. tell character object to do the same for own children

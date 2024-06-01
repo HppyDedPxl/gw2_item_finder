@@ -56,25 +56,38 @@ const useAPIData = (account: GW2AccountInfo, itemid: string) => {
     const [isError, setIsError] = useState(false)
     const [Error, setError] = useState("")
     const [result, setResult] = useState<GW2AccountSearchResult[]>([])
+    const [aggregateResults, setAggregateResult] = useState<any[]>([])
+    const [expanded, setExpanded] = useState<boolean>()
 
     useEffect(()=>{
 
         let finder : GW2ItemFinder = new GW2ItemFinder(account,itemid)
-        setResult(finder.SearchOnAccount(itemid).hits);
+        let r = finder.SearchOnAccount(itemid)
+        setResult(r.hits);
+        setAggregateResult(r.aggregates)
         setLoading(false);
 
      },[]);
 
-    return {apiData, isLoading, result, isError, Error}
+    return {apiData, isLoading, result, aggregateResults, expanded, isError, Error, setExpanded}
 }
 
 
+
+function randuid() {
+    return Math.random() * 9999999999;
+  }
 
 const ItemSearch = (props : ItemCardProps) => {
 
     
 
-    const { apiData, isLoading,result, isError, Error } = useAPIData(props.account, props.itemID,);
+    const { apiData, isLoading,result, aggregateResults, expanded, isError, Error, setExpanded } = useAPIData(props.account, props.itemID,);
+
+    function toggleExpand(){
+        setExpanded(!expanded);
+    }
+    
     
     let onRemoveClicked = () => {
         if(props.onRemoveClickedCallback !== null)
@@ -113,7 +126,44 @@ const ItemSearch = (props : ItemCardProps) => {
                 <div className="my-2 px-4">
                 {result.length > 0 ? (
                     <>
-                {result.map(r=>(
+
+                {
+                    aggregateResults.map(r=>(
+                        <div key={randuid()}> 
+                            <div className="bg-quaternary my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-secondary rounded-xl text-xs">   
+                                {
+                                    r.Data["CharacterData"] === undefined ? (
+                                        <>
+                                        <div className="flex items-center justify-center text-white">
+                                            {r.Name}
+                                        </div>
+                                        </>
+                                    ) :
+                                    (
+                                    <>
+                                    <div className="resultGridCol col-span-2 md:col-span-1">
+                                        <img src={"icons/"+r.Data["CharacterData"].GetCharacterClass()+".png"} className="h-6 pr-2"></img>
+                                        <div className="flex items-center justify-center text-white wrap-anywhere">{r.Data["CharacterData"].CharacterName} </div>
+                                    </div>
+                                    </>
+                                    )
+                                }
+                                <>
+                            <div className="resultGridCol">
+                                <div className="flex items-center justify-center text-white pl-4 text-gra-300"> Amount Found: </div>
+                                <div className="flex items-center justify-center text-white pl-1 text-positive">{r.Data["Amount"]} </div>
+                            </div>
+                        </>
+                                
+                            </div>
+                        </div> 
+                    ))
+                }
+
+                { expanded ? <>
+                <button onClick={toggleExpand} className="flex w-full transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-positive h-auto content-center items-center align-center expand-button" >Hide Detailed Location Info</button>
+                {
+                result.map(r=>(
                 <div key={r.uuid}>   
                     <div className="bg-quaternary my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-secondary rounded-xl text-xs">       
                         <div className="grid grid-cols-2 md:grid-cols-3 w-full">
@@ -154,7 +204,10 @@ const ItemSearch = (props : ItemCardProps) => {
                         </div>
                     </div>
                 </div>
-            ))}
+            ))} </>
+            : <>
+            <button onClick={toggleExpand} className="flex w-full transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-positive h-auto content-center items-center align-center expand-button">View Detailed Location Info</button>
+            </> }
                     </>
                 ) : (
                     <div className="bg-quaternary my-1 mx-1 my-1 py-1 px-4 h-auto flex flex-row border-solid border-secondary rounded-xl text-xs">            
@@ -167,6 +220,7 @@ const ItemSearch = (props : ItemCardProps) => {
             </div>
 
         )}
+        
     </div>
     );
 };

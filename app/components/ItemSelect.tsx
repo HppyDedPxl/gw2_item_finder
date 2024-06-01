@@ -5,10 +5,13 @@ import AsyncSelect from "react-select/async";
 import SingleValue from "react-select/dist/declarations/src/components/SingleValue";
 import { valueTernary } from "react-select/dist/declarations/src/utils";
 import { GW2CacheFilterResult, GW2OfflineItemCache } from "~/GW2Api/GW2OfflineItemCache";
+import { useFetcher } from '@remix-run/react'
+import { useSearchParams } from "@remix-run/react";
+//import { useDeferredValue, useEffect, useState } from "react";
 
+import axios from "axios";
 export type ItemSelectProps = {
-    ItemCache : GW2OfflineItemCache
-    onChange: (newValue: OnChangeValue<any, any>, actionMeta: ActionMeta<any>) => void
+    onChange: (newValue: OnChangeValue<any, any>, actionMeta: ActionMeta<any>) => void,
 }
 
 interface ItemSelectState{
@@ -24,15 +27,11 @@ export type ItemOption = {
 
 
 
-const image = (url = "") =>({
-
-});
-
-
-
 function MakeImageMarkup(url : string){
     return '<div><img src="' + url + '" height="auto" width="auto"/></div>';
 }
+
+
 
 
 export default class ItemSelect extends Component<ItemSelectProps, ItemSelectState>{
@@ -51,18 +50,20 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
 
 
 
-    promiseItemOptions = (inputValue: string) =>
-        new Promise<ItemOption[]>(resolve=>{
-       
-        let itemDb = Object.assign(new GW2OfflineItemCache(), this.props.ItemCache);
-        let matches : GW2CacheFilterResult[] = itemDb.GetAllMatching(inputValue);
-        let options : ItemOption[] = [];
-        for (let i = 0; i < matches.length && i < 40; i++) {
-            const element = matches[i];
-            options.push({value:element.Key,label: element.Name,icon:element.IconUrl});   
-        }
-        resolve(options);
-    });
+    promiseItemOptions = (inputValue: string) =>{
+
+        return new Promise<ItemOption[]>(resolve=>{
+        axios.get('./FindItem?q='+inputValue).then((res)=>{
+            let options : ItemOption[] = [];
+
+            for( let i = 0 ; i < res.data.length && i < 100; i++){
+                const element = res.data[i];
+                options.push({value:element.id,label: element.name,icon:element.icon});   
+            }
+            resolve(options);
+        })
+
+    })};
 
     onInputChange =  (query:any, { action }) => {
 
@@ -134,6 +135,9 @@ export default class ItemSelect extends Component<ItemSelectProps, ItemSelectSta
     }
 
     render(): ReactNode {
+
+        
+
         return(<>
         <div className="flex-auto">
         <AsyncSelect 

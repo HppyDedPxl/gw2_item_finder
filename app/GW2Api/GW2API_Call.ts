@@ -47,6 +47,10 @@ export type BankResult = {
     Items : any[];
 }
 
+export type MaterialStorageResult = {
+    Items : any[];
+}
+
 export class GW2API_Call {
 
     ApiKey: string;
@@ -141,6 +145,7 @@ export class GW2API_Call {
         });
     }
 
+
     GetItemData(itemId: number) : Promise<ItemDataResult>{
         return new Promise<ItemDataResult>((resolve,error)=>{
             if(!itemId || isNaN(itemId)){
@@ -206,10 +211,25 @@ export class GW2API_Call {
         });
     }
     GetBankData() : Promise<BankResult>{
+        
         return new Promise<BankResult>((resolve,error)=>{
             this.URI = GW2APIEndpoint + "account/bank";
             this.call().then(res=>{
                 let result : BankResult = {Items: JSON.parse(res)}
+                resolve(result);
+            })
+            .catch(err=>{
+                error(err);
+            })
+        });
+    }
+
+    GetMaterialStorageData() : Promise<MaterialStorageResult>{
+        console.log("getMatstorageData");
+        return new Promise<BankResult>((resolve,error)=>{
+            this.URI = GW2APIEndpoint + "account/materials";
+            this.call().then(res=>{
+                let result : MaterialStorageResult = {Items: JSON.parse(res)}
                 resolve(result);
             })
             .catch(err=>{

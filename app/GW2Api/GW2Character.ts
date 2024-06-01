@@ -49,6 +49,7 @@ export interface GW2JsonItemWrapper {
     stats: object;
     binding: string;
     dyes: number[];
+    count:number;
 }
 
 export interface GW2JsonBagWrapper {

@@ -6,6 +6,7 @@ import { GW2Character } from "./GW2Character";
 import { GW2Item } from "./GW2Item";
 
 export type GW2AccountItemSearchResult = {
+    aggregates:[]
     hits: GW2AccountSearchResult[]
 }
 
@@ -16,6 +17,7 @@ export type GW2AccountSearchResult = {
     EquipmentTabName: string,
     Location: string,
     Slot: string,
+    Count: Number
 }
 
 
@@ -30,9 +32,101 @@ export class GW2ItemFinder {
         this.itemID = itemID;
     }
 
+
+    ConsolidateSearch(hits:GW2AccountSearchResult[]) : any {
+        let totalFound = 0;
+
+        let Counters = []
+
+        hits.forEach(hit => {
+            if(hit != null){
+
+                let FindLocation = ""
+                if(hit.Character != null)
+                    FindLocation = hit.Character.CharacterName
+                else
+                    FindLocation = "___"+hit.Location
+                if(Counters[FindLocation] !== undefined){
+                    if(Counters[FindLocation][hit.EquipmentTabNr] !== undefined){
+                        Counters[FindLocation][hit.EquipmentTabNr] = Counters[FindLocation][hit.EquipmentTabNr] + hit.Count
+                    }
+                    else{
+                        Counters[FindLocation][hit.EquipmentTabNr] = hit.Count
+                    }
+                }
+                else{
+                    let arr = []
+                    arr[hit.EquipmentTabNr] = hit.Count
+                    Counters[FindLocation] = arr;
+                    Counters[FindLocation]["CharacterData"] = hit.Character
+                }
+            }
+            
+        });
+
+   
+        let Aggregates = []
+        
+        let iterator = Object.keys(Counters)
+  
+        iterator.forEach(loc => {
+
+            if(loc.startsWith("___")){
+                Aggregates[loc.slice(3)] = []
+                Aggregates[loc.slice(3)]["Amount"] = Counters[loc][0]
+                totalFound = totalFound + Counters[loc][0]
+            }
+            else{
+
+                const subIterator = Object.keys(Counters[loc])
+    
+
+                let maxArr = []
+                let foundOnLocation = 0;
+                subIterator.forEach(tab=>{
+                    if(tab === "CharacterData")
+                        return;
+                    if(tab == 0){
+                        console.log("Found this here")
+                        totalFound += Counters[loc][tab]
+                        foundOnLocation += Counters[loc][tab]
+                    }else{
+                        maxArr.push(Counters[loc][tab])
+                    }
+                })
+                if(maxArr.length > 0){
+                    let max =  Math.max(...maxArr)
+                    totalFound += max
+                    foundOnLocation += max
+                }
+             
+
+                Aggregates[loc] = []
+                Aggregates[loc]["Amount"] = foundOnLocation
+                Aggregates[loc]["CharacterData"] = Counters[loc]["CharacterData"]
+
+            }
+        });
+
+        let finalAggregates = []
+        finalAggregates.push({"Name" : "Full Account", "Data":{"Amount":totalFound}})
+        let finalIterator = Object.keys(Aggregates)
+        finalIterator.forEach(it => {
+            finalAggregates.push({"Name":it,"Data":Aggregates[it]});
+        });
+        
+
+
+
+        return finalAggregates;
+    }
+
     SearchOnAccount(itemId: string) : GW2AccountItemSearchResult {     
         let search : GW2AccountItemSearchResult;
-        search = {hits: this.account.FindItemInAccount(parseInt(itemId))};
+        let results = this.account.FindItemInAccount(parseInt(itemId))
+        let aggregated_results = this.ConsolidateSearch(results);
+        search = {aggregates:aggregated_results, hits: results};
+        console.log(search)
         return search;
     }
 

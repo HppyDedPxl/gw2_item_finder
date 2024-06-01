@@ -18,7 +18,9 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { GW2OfflineItemCache } from "./GW2Api/GW2OfflineItemCache";
+import { getDb } from "./Gw2ItemDb.server"
 import  Footer from "./components/Footer";
+import { useFetcher } from '@remix-run/react'
 
 export function links(){
   return [{rel: "stylesheet", href: styles}];
@@ -28,18 +30,18 @@ export const meta: MetaFunction = () => {
   return { title: "Find My Skritt!" };
 };
 
-export interface GlobalAppData{
-  ItemDB: GW2OfflineItemCache;
+function FindItemsInDb(partialName : string){
+
+  console.log(partialName)
+  return partialName
 }
 
+
 export default function App() {
-  let itemDB : GW2OfflineItemCache = new GW2OfflineItemCache();
-  itemDB.Load();
-  const globalAppData : GlobalAppData = {ItemDB:itemDB};
   return (
     <Document>
       <Layout>
-       <ParametrizedOutlet data={globalAppData}/>
+       <ParametrizedOutlet/>
       </Layout>
     </Document>
   );

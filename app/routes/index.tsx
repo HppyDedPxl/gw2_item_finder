@@ -6,13 +6,12 @@ import { useLoaderData } from 'remix';
 import { LoaderFunction, createCookie } from 'remix';
 import { DeserializeGW2AccountInfo, GW2AccountInfo } from '~/GW2Api/GW2AccountInfo';
 import { BarLoader, RingLoader } from 'react-spinners';
-import { GW2OfflineItemCache } from '~/GW2Api/GW2OfflineItemCache';
 import Async, { useAsync } from 'react-select/async';
 import AsyncSelect from 'react-select/async';
 import ItemSelect, { ItemOption } from '~/components/ItemSelect';
 import Howto from './howto';
 import { GenerateGatheringToolFromOptions, GenerateInfusionStringFromOptions, GW2ItemFinder } from '~/GW2Api/GW2ItemFindProcess';
-import { GlobalAppData, useParentData } from '~/root';
+
 
 function ConvertTimespanToTimeString(span: number) {
   span = span/1000;
@@ -48,6 +47,7 @@ export default function Index() {
   const [accountInfo, setAccountInfo] = useState<GW2AccountInfo>()
   const [shouldPrefetchItems, setShouldPrefetchItems] = useState(false)
   const [itemsToPrefetch, setItemsToPrefetch] = useState<ItemOption[]>([])
+
 
   function removeAllEmptyCards(){
     let ic_copy = itemCards;
@@ -173,8 +173,7 @@ export default function Index() {
     
   },[]);
 
-  let globalAppData : GlobalAppData = useParentData() as GlobalAppData;
-  
+
   if(shouldPrefetchItems){
     FindItemsParams(itemsToPrefetch);
     setShouldPrefetchItems(false);
@@ -249,7 +248,7 @@ export default function Index() {
           </div>
           <div className="pt-1"></div>
           <div className='flex flex-row lace-items-center justify-items-auto'>
-          <ItemSelect ItemCache={globalAppData.ItemDB} onChange={OnMultiSelectChanged}></ItemSelect>
+          <ItemSelect onChange={OnMultiSelectChanged}></ItemSelect>
           <div className="px-1"></div>
           <button name="confirm-button" id="confirm-button" className="flex transition-all hover:transition-all pl-2 pr-2 rounded-2xl hover:rounded-md bg-positive h-auto" onClick={FindItems}><div className="m-auto w-10 p-2"><SearchIcon color='black'></SearchIcon></div></button>
           </div>

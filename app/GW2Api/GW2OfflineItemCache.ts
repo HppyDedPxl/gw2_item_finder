@@ -33,6 +33,7 @@ export class GW2OfflineItemCache{
     }
 
     GetAllMatching(searchString : string) : GW2CacheFilterResult[] {
+
         let keys : string[] = Object.keys(this.ItemDatabase);
         let matches : GW2CacheFilterResult[] = [];
         for (let i = 0; i < keys.length; i++) {
